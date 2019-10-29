@@ -1,2 +1,0 @@
-# Eemo_ios
-Eemoのiosアプリ
