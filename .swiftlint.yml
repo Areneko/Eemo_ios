@@ -1,0 +1,12 @@
+disabled_rules:
+
+- trailing_newline
+- trailing_whitespace
+
+excluded:
+
+- Eemo_ios/App/AppDelegate.swift
+- Eemo_ios/App/SceneDelegate.swift
+- Carthage/
+- Eemo_iosTests/
+- Eemo_iosUITests/

@@ -1,0 +1,759 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C111A5782366F6FE008EB354 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5772366F6FE008EB354 /* AppDelegate.swift */; };
+		C111A57A2366F6FE008EB354 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5792366F6FE008EB354 /* SceneDelegate.swift */; };
+		C111A5812366F700008EB354 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C111A5802366F700008EB354 /* Assets.xcassets */; };
+		C111A5842366F700008EB354 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C111A5822366F700008EB354 /* LaunchScreen.storyboard */; };
+		C111A58F2366F700008EB354 /* Eemo_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A58E2366F700008EB354 /* Eemo_iosTests.swift */; };
+		C111A59A2366F700008EB354 /* Eemo_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5992366F700008EB354 /* Eemo_iosUITests.swift */; };
+		C111A5AB2366F847008EB354 /* UploadPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5AA2366F847008EB354 /* UploadPhotoViewController.swift */; };
+		C111A5AD2366F851008EB354 /* UploadPhoto.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C111A5AC2366F851008EB354 /* UploadPhoto.storyboard */; };
+		C111A5B12366F883008EB354 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5B02366F883008EB354 /* ResultViewController.swift */; };
+		C111A5B32366F889008EB354 /* Result.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C111A5B22366F889008EB354 /* Result.storyboard */; };
+		C111A5B72366F920008EB354 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5B62366F920008EB354 /* App.swift */; };
+		C111A5BA2366FA48008EB354 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5B92366FA48008EB354 /* APIClient.swift */; };
+		C111A5BC2366FB7B008EB354 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C111A5BB2366FB7B008EB354 /* Default-568h@2x.png */; };
+		C18FD4FC236729E80031027F /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18FD4FB236729E80031027F /* UIImageView.swift */; };
+		C18FD5012367CAFC0031027F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD4FE2367CAFC0031027F /* RxCocoa.framework */; };
+		C18FD5022367CAFC0031027F /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD4FE2367CAFC0031027F /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C18FD5032367CAFC0031027F /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD4FF2367CAFC0031027F /* RxRelay.framework */; };
+		C18FD5042367CAFC0031027F /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD4FF2367CAFC0031027F /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C18FD5052367CAFC0031027F /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD5002367CAFC0031027F /* RxSwift.framework */; };
+		C18FD5062367CAFC0031027F /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD5002367CAFC0031027F /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C111A58B2366F700008EB354 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C111A56C2366F6FE008EB354 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C111A5732366F6FE008EB354;
+			remoteInfo = Eemo_ios;
+		};
+		C111A5962366F700008EB354 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C111A56C2366F6FE008EB354 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C111A5732366F6FE008EB354;
+			remoteInfo = Eemo_ios;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C18FD5072367CAFC0031027F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C18FD5042367CAFC0031027F /* RxRelay.framework in Embed Frameworks */,
+				C18FD5022367CAFC0031027F /* RxCocoa.framework in Embed Frameworks */,
+				C18FD5062367CAFC0031027F /* RxSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C111A5742366F6FE008EB354 /* Eemo_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eemo_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C111A5772366F6FE008EB354 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C111A5792366F6FE008EB354 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C111A5802366F700008EB354 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C111A5832366F700008EB354 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C111A5852366F700008EB354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C111A58A2366F700008EB354 /* Eemo_iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Eemo_iosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C111A58E2366F700008EB354 /* Eemo_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eemo_iosTests.swift; sourceTree = "<group>"; };
+		C111A5902366F700008EB354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C111A5952366F700008EB354 /* Eemo_iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Eemo_iosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C111A5992366F700008EB354 /* Eemo_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eemo_iosUITests.swift; sourceTree = "<group>"; };
+		C111A59B2366F700008EB354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C111A5AA2366F847008EB354 /* UploadPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPhotoViewController.swift; sourceTree = "<group>"; };
+		C111A5AC2366F851008EB354 /* UploadPhoto.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UploadPhoto.storyboard; sourceTree = "<group>"; };
+		C111A5B02366F883008EB354 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		C111A5B22366F889008EB354 /* Result.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Result.storyboard; sourceTree = "<group>"; };
+		C111A5B62366F920008EB354 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		C111A5B92366FA48008EB354 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		C111A5BB2366FB7B008EB354 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C18FD4FB236729E80031027F /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		C18FD4FE2367CAFC0031027F /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		C18FD4FF2367CAFC0031027F /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxRelay.framework; path = Carthage/Build/iOS/RxRelay.framework; sourceTree = "<group>"; };
+		C18FD5002367CAFC0031027F /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C111A5712366F6FE008EB354 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C18FD5032367CAFC0031027F /* RxRelay.framework in Frameworks */,
+				C18FD5012367CAFC0031027F /* RxCocoa.framework in Frameworks */,
+				C18FD5052367CAFC0031027F /* RxSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C111A5872366F700008EB354 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C111A5922366F700008EB354 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C111A56B2366F6FE008EB354 = {
+			isa = PBXGroup;
+			children = (
+				C111A5BB2366FB7B008EB354 /* Default-568h@2x.png */,
+				C111A5762366F6FE008EB354 /* Eemo_ios */,
+				C111A58D2366F700008EB354 /* Eemo_iosTests */,
+				C111A5982366F700008EB354 /* Eemo_iosUITests */,
+				C111A5752366F6FE008EB354 /* Products */,
+				C18FD4FD2367CAFB0031027F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C111A5752366F6FE008EB354 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C111A5742366F6FE008EB354 /* Eemo_ios.app */,
+				C111A58A2366F700008EB354 /* Eemo_iosTests.xctest */,
+				C111A5952366F700008EB354 /* Eemo_iosUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C111A5762366F6FE008EB354 /* Eemo_ios */ = {
+			isa = PBXGroup;
+			children = (
+				C111A5A72366F7C7008EB354 /* App */,
+				C111A5B82366F9F9008EB354 /* API */,
+				C111A5A82366F7D1008EB354 /* Views */,
+				C18FD4FA236729CF0031027F /* Extensions */,
+				C111A5A92366F802008EB354 /* Resources */,
+			);
+			path = Eemo_ios;
+			sourceTree = "<group>";
+		};
+		C111A58D2366F700008EB354 /* Eemo_iosTests */ = {
+			isa = PBXGroup;
+			children = (
+				C111A58E2366F700008EB354 /* Eemo_iosTests.swift */,
+				C111A5902366F700008EB354 /* Info.plist */,
+			);
+			path = Eemo_iosTests;
+			sourceTree = "<group>";
+		};
+		C111A5982366F700008EB354 /* Eemo_iosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C111A5992366F700008EB354 /* Eemo_iosUITests.swift */,
+				C111A59B2366F700008EB354 /* Info.plist */,
+			);
+			path = Eemo_iosUITests;
+			sourceTree = "<group>";
+		};
+		C111A5A72366F7C7008EB354 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C111A5792366F6FE008EB354 /* SceneDelegate.swift */,
+				C111A5772366F6FE008EB354 /* AppDelegate.swift */,
+				C111A5B62366F920008EB354 /* App.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C111A5A82366F7D1008EB354 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C111A5AF2366F864008EB354 /* Result */,
+				C111A5AE2366F856008EB354 /* UploadPhoto */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C111A5A92366F802008EB354 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C111A5802366F700008EB354 /* Assets.xcassets */,
+				C111A5822366F700008EB354 /* LaunchScreen.storyboard */,
+				C111A5852366F700008EB354 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C111A5AE2366F856008EB354 /* UploadPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				C111A5AC2366F851008EB354 /* UploadPhoto.storyboard */,
+				C111A5AA2366F847008EB354 /* UploadPhotoViewController.swift */,
+			);
+			path = UploadPhoto;
+			sourceTree = "<group>";
+		};
+		C111A5AF2366F864008EB354 /* Result */ = {
+			isa = PBXGroup;
+			children = (
+				C111A5B22366F889008EB354 /* Result.storyboard */,
+				C111A5B02366F883008EB354 /* ResultViewController.swift */,
+			);
+			path = Result;
+			sourceTree = "<group>";
+		};
+		C111A5B82366F9F9008EB354 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				C111A5B92366FA48008EB354 /* APIClient.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		C18FD4FA236729CF0031027F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C18FD4FB236729E80031027F /* UIImageView.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C18FD4FD2367CAFB0031027F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C18FD4FE2367CAFC0031027F /* RxCocoa.framework */,
+				C18FD4FF2367CAFC0031027F /* RxRelay.framework */,
+				C18FD5002367CAFC0031027F /* RxSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C111A5732366F6FE008EB354 /* Eemo_ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C111A59E2366F700008EB354 /* Build configuration list for PBXNativeTarget "Eemo_ios" */;
+			buildPhases = (
+				C111A5702366F6FE008EB354 /* Sources */,
+				C111A5712366F6FE008EB354 /* Frameworks */,
+				C111A5722366F6FE008EB354 /* Resources */,
+				C18FD5072367CAFC0031027F /* Embed Frameworks */,
+				C18FD5082367CB030031027F /* RxSwift Run Script */,
+				C18FD5092367CBDF0031027F /* SwiftLint Run Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Eemo_ios;
+			productName = Eemo_ios;
+			productReference = C111A5742366F6FE008EB354 /* Eemo_ios.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C111A5892366F700008EB354 /* Eemo_iosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C111A5A12366F700008EB354 /* Build configuration list for PBXNativeTarget "Eemo_iosTests" */;
+			buildPhases = (
+				C111A5862366F700008EB354 /* Sources */,
+				C111A5872366F700008EB354 /* Frameworks */,
+				C111A5882366F700008EB354 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C111A58C2366F700008EB354 /* PBXTargetDependency */,
+			);
+			name = Eemo_iosTests;
+			productName = Eemo_iosTests;
+			productReference = C111A58A2366F700008EB354 /* Eemo_iosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C111A5942366F700008EB354 /* Eemo_iosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C111A5A42366F700008EB354 /* Build configuration list for PBXNativeTarget "Eemo_iosUITests" */;
+			buildPhases = (
+				C111A5912366F700008EB354 /* Sources */,
+				C111A5922366F700008EB354 /* Frameworks */,
+				C111A5932366F700008EB354 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C111A5972366F700008EB354 /* PBXTargetDependency */,
+			);
+			name = Eemo_iosUITests;
+			productName = Eemo_iosUITests;
+			productReference = C111A5952366F700008EB354 /* Eemo_iosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C111A56C2366F6FE008EB354 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1110;
+				LastUpgradeCheck = 1110;
+				ORGANIZATIONNAME = "Ren Matsushita";
+				TargetAttributes = {
+					C111A5732366F6FE008EB354 = {
+						CreatedOnToolsVersion = 11.1;
+					};
+					C111A5892366F700008EB354 = {
+						CreatedOnToolsVersion = 11.1;
+						TestTargetID = C111A5732366F6FE008EB354;
+					};
+					C111A5942366F700008EB354 = {
+						CreatedOnToolsVersion = 11.1;
+						TestTargetID = C111A5732366F6FE008EB354;
+					};
+				};
+			};
+			buildConfigurationList = C111A56F2366F6FE008EB354 /* Build configuration list for PBXProject "Eemo_ios" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C111A56B2366F6FE008EB354;
+			productRefGroup = C111A5752366F6FE008EB354 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C111A5732366F6FE008EB354 /* Eemo_ios */,
+				C111A5892366F700008EB354 /* Eemo_iosTests */,
+				C111A5942366F700008EB354 /* Eemo_iosUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C111A5722366F6FE008EB354 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C111A5842366F700008EB354 /* LaunchScreen.storyboard in Resources */,
+				C111A5812366F700008EB354 /* Assets.xcassets in Resources */,
+				C111A5AD2366F851008EB354 /* UploadPhoto.storyboard in Resources */,
+				C111A5BC2366FB7B008EB354 /* Default-568h@2x.png in Resources */,
+				C111A5B32366F889008EB354 /* Result.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C111A5882366F700008EB354 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C111A5932366F700008EB354 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C18FD5082367CB030031027F /* RxSwift Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxRelay.framework",
+			);
+			name = "RxSwift Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+		};
+		C18FD5092367CBDF0031027F /* SwiftLint Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C111A5702366F6FE008EB354 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C111A5782366F6FE008EB354 /* AppDelegate.swift in Sources */,
+				C111A5AB2366F847008EB354 /* UploadPhotoViewController.swift in Sources */,
+				C18FD4FC236729E80031027F /* UIImageView.swift in Sources */,
+				C111A5B72366F920008EB354 /* App.swift in Sources */,
+				C111A5BA2366FA48008EB354 /* APIClient.swift in Sources */,
+				C111A57A2366F6FE008EB354 /* SceneDelegate.swift in Sources */,
+				C111A5B12366F883008EB354 /* ResultViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C111A5862366F700008EB354 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C111A58F2366F700008EB354 /* Eemo_iosTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C111A5912366F700008EB354 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C111A59A2366F700008EB354 /* Eemo_iosUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C111A58C2366F700008EB354 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C111A5732366F6FE008EB354 /* Eemo_ios */;
+			targetProxy = C111A58B2366F700008EB354 /* PBXContainerItemProxy */;
+		};
+		C111A5972366F700008EB354 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C111A5732366F6FE008EB354 /* Eemo_ios */;
+			targetProxy = C111A5962366F700008EB354 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C111A5822366F700008EB354 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C111A5832366F700008EB354 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C111A59C2366F700008EB354 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C111A59D2366F700008EB354 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C111A59F2366F700008EB354 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K3WSFBFNGQ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Eemo_ios/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ren.Eemo-ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C111A5A02366F700008EB354 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K3WSFBFNGQ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Eemo_ios/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ren.Eemo-ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C111A5A22366F700008EB354 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K3WSFBFNGQ;
+				INFOPLIST_FILE = Eemo_iosTests/Resouces/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ren.Eemo-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Eemo_ios.app/Eemo_ios";
+			};
+			name = Debug;
+		};
+		C111A5A32366F700008EB354 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K3WSFBFNGQ;
+				INFOPLIST_FILE = Eemo_iosTests/Resouces/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ren.Eemo-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Eemo_ios.app/Eemo_ios";
+			};
+			name = Release;
+		};
+		C111A5A52366F700008EB354 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K3WSFBFNGQ;
+				INFOPLIST_FILE = Eemo_iosUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ren.Eemo-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Eemo_ios;
+			};
+			name = Debug;
+		};
+		C111A5A62366F700008EB354 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K3WSFBFNGQ;
+				INFOPLIST_FILE = Eemo_iosUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ren.Eemo-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Eemo_ios;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C111A56F2366F6FE008EB354 /* Build configuration list for PBXProject "Eemo_ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C111A59C2366F700008EB354 /* Debug */,
+				C111A59D2366F700008EB354 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C111A59E2366F700008EB354 /* Build configuration list for PBXNativeTarget "Eemo_ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C111A59F2366F700008EB354 /* Debug */,
+				C111A5A02366F700008EB354 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C111A5A12366F700008EB354 /* Build configuration list for PBXNativeTarget "Eemo_iosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C111A5A22366F700008EB354 /* Debug */,
+				C111A5A32366F700008EB354 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C111A5A42366F700008EB354 /* Build configuration list for PBXNativeTarget "Eemo_iosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C111A5A52366F700008EB354 /* Debug */,
+				C111A5A62366F700008EB354 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C111A56C2366F6FE008EB354 /* Project object */;
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YB3-ay-thE">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Eemo-->
+        <scene sceneID="tQS-1h-OIK">
+            <objects>
+                <viewController id="q0L-Nm-0D0" customClass="UploadPhotoViewController" customModule="Eemo_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="v0A-ua-qaS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ScW-o3-DUZ">
+                                <rect key="frame" x="10" y="98" width="355" height="532.66666666666663"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ScW-o3-DUZ" secondAttribute="height" multiplier="2:3" id="IWw-XQ-IUB"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C0H-bk-8fr">
+                                <rect key="frame" x="63" y="708" width="73" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="pick photo"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Btu-OS-Xsz">
+                                <rect key="frame" x="218" y="712" width="47" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="upload"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="ScW-o3-DUZ" firstAttribute="leading" secondItem="6Ah-d5-N69" secondAttribute="leading" constant="10" id="DyL-6B-yIs"/>
+                            <constraint firstItem="ScW-o3-DUZ" firstAttribute="top" secondItem="6Ah-d5-N69" secondAttribute="top" constant="10" id="rWD-n1-T6v"/>
+                            <constraint firstItem="6Ah-d5-N69" firstAttribute="trailing" secondItem="ScW-o3-DUZ" secondAttribute="trailing" constant="10" id="rsY-Oc-3HP"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Ah-d5-N69"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Eemo" id="sEW-qZ-Mci"/>
+                    <connections>
+                        <outlet property="imageView" destination="ScW-o3-DUZ" id="COu-hS-piY"/>
+                        <outlet property="pickButton" destination="C0H-bk-8fr" id="nX1-tR-NN1"/>
+                        <outlet property="uploadButton" destination="Btu-OS-Xsz" id="32u-lI-ka8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o12-yG-49d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="997.10144927536237" y="77.678571428571431"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7hw-AB-nLo">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YB3-ay-thE" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="L62-Ga-h8P">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="q0L-Nm-0D0" kind="relationship" relationship="rootViewController" id="fTp-Vk-sOA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HPE-cs-qXR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="86.956521739130437" y="77.678571428571431"/>
+        </scene>
+    </scenes>
+</document>
