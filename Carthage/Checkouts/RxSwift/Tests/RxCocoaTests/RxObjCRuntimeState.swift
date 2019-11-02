@@ -1,11 +1,12 @@
 //
 //  RxObjCRuntimeState.swift
-//  Tests
+//  RxTests
 //
 //  Created by Krunoslav Zaher on 11/27/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import XCTest
 
 struct RxObjCRuntimeChange {
@@ -29,7 +30,7 @@ struct RxObjCRuntimeChange {
     }
 }
 
-final class RxObjCRuntimeState {
+class RxObjCRuntimeState {
     // total number of dynamically genertated classes
     let dynamicSublasses: Int
     // total number of classes that have swizzled forwarding mechanism

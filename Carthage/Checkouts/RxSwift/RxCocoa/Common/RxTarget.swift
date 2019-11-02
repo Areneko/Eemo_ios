@@ -6,9 +6,10 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import class Foundation.NSObject
-
+import Foundation
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 
 class RxTarget : NSObject
                , Disposable {
@@ -20,24 +21,24 @@ class RxTarget : NSObject
         self.retainSelf = self
 
 #if TRACE_RESOURCES
-        _ = Resources.incrementTotal()
+        OSAtomicIncrement32(&resourceCount)
 #endif
 
 #if DEBUG
-        MainScheduler.ensureRunningOnMainThread()
+        MainScheduler.ensureExecutingOnScheduler()
 #endif
     }
     
     func dispose() {
 #if DEBUG
-        MainScheduler.ensureRunningOnMainThread()
+        MainScheduler.ensureExecutingOnScheduler()
 #endif
         self.retainSelf = nil
     }
 
 #if TRACE_RESOURCES
     deinit {
-        _ = Resources.decrementTotal()
+        OSAtomicDecrement32(&resourceCount)
     }
 #endif
 }

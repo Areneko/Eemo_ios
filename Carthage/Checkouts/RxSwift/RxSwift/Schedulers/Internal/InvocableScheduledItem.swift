@@ -1,10 +1,12 @@
 //
 //  InvocableScheduledItem.swift
-//  RxSwift
+//  Rx
 //
 //  Created by Krunoslav Zaher on 11/7/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
+
+import Foundation
 
 struct InvocableScheduledItem<I: InvocableWithValueType> : InvocableType {
 
@@ -12,11 +14,11 @@ struct InvocableScheduledItem<I: InvocableWithValueType> : InvocableType {
     let _state: I.Value
 
     init(invocable: I, state: I.Value) {
-        self._invocable = invocable
-        self._state = state
+        _invocable = invocable
+        _state = state
     }
 
     func invoke() {
-        self._invocable.invoke(self._state)
+        _invocable.invoke(_state)
     }
 }

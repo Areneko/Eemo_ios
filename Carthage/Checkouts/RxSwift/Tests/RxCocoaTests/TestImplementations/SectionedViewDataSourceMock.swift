@@ -1,16 +1,17 @@
 //
 //  SectionedViewDataSourceMock.swift
-//  Tests
+//  Rx
 //
 //  Created by Krunoslav Zaher on 1/10/16.
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import RxSwift
 import RxCocoa
 import UIKit
 
-@objc final class SectionedViewDataSourceMock
+@objc class SectionedViewDataSourceMock
     : NSObject
     , SectionedViewDataSourceType
     , UITableViewDataSource
@@ -26,7 +27,7 @@ import UIKit
         super.init()
     }
 
-    func model(at indexPath: IndexPath) throws -> Any {
+    func model(_ indexPath: IndexPath) throws -> Any {
         return items![indexPath.item]
     }
 

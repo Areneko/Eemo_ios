@@ -6,25 +6,30 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import UIKit
+#if !RX_NO_MODULE
 import RxSwift
 import RxCocoa
+#endif
 
-class SimpleTableViewExampleViewController : ViewController, UITableViewDelegate {
+class SimpleTableViewExampleViewController : ViewController {
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let items = Observable.just(
-            (0..<20).map { "\($0)" }
-        )
+        let items = Observable.just([
+            "First Item",
+            "Second Item",
+            "Third Item"
+        ])
 
         items
-            .bind(to: tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, element, cell) in
+            .bindTo(tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, element, cell) in
                 cell.textLabel?.text = "\(element) @ row \(row)"
             }
-            .disposed(by: disposeBag)
+            .addDisposableTo(disposeBag)
 
 
         tableView.rx
@@ -32,15 +37,14 @@ class SimpleTableViewExampleViewController : ViewController, UITableViewDelegate
             .subscribe(onNext:  { value in
                 DefaultWireframe.presentAlert("Tapped `\(value)`")
             })
-            .disposed(by: disposeBag)
+            .addDisposableTo(disposeBag)
 
         tableView.rx
             .itemAccessoryButtonTapped
             .subscribe(onNext: { indexPath in
                 DefaultWireframe.presentAlert("Tapped Detail @ \(indexPath.section),\(indexPath.row)")
             })
-            .disposed(by: disposeBag)
+            .addDisposableTo(disposeBag)
 
     }
-
 }

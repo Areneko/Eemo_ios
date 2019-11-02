@@ -9,36 +9,35 @@
 #if os(iOS) || os(tvOS)
 
 import UIKit
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 
-fileprivate var rx_tap_key: UInt8 = 0
+var rx_tap_key: UInt8 = 0
 
 extension Reactive where Base: UIBarButtonItem {
     
-    /// Bindable sink for `enabled` property.
-    public var isEnabled: Binder<Bool> {
-        return Binder(self.base) { element, value in
-            element.isEnabled = value
-        }
-    }
-    
-    /// Bindable sink for `title` property.
-    public var title: Binder<String> {
-        return Binder(self.base) { element, value in
-            element.title = value
-        }
+    /**
+    Bindable sink for `enabled` property.
+    */
+    public var enabled: AnyObserver<Bool> {
+        return UIBindingObserver(UIElement: self.base) { UIElement, value in
+            UIElement.isEnabled = value
+        }.asObserver()
     }
 
-    /// Reactive wrapper for target action pattern on `self`.
-    public var tap: ControlEvent<()> {
-        let source = lazyInstanceObservable(&rx_tap_key) { () -> Observable<()> in
+    /**
+    Reactive wrapper for target action pattern on `self`.
+    */
+    public var tap: ControlEvent<Void> {
+        let source = lazyInstanceObservable(&rx_tap_key) { () -> Observable<Void> in
             Observable.create { [weak control = self.base] observer in
                 guard let control = control else {
                     observer.on(.completed)
                     return Disposables.create()
                 }
                 let target = BarButtonItemTarget(barButtonItem: control) {
-                    observer.on(.next(()))
+                    observer.on(.next())
                 }
                 return target
             }
@@ -52,7 +51,7 @@ extension Reactive where Base: UIBarButtonItem {
 
 
 @objc
-final class BarButtonItemTarget: RxTarget {
+class BarButtonItemTarget: RxTarget {
     typealias Callback = () -> Void
     
     weak var barButtonItem: UIBarButtonItem?
@@ -69,7 +68,7 @@ final class BarButtonItemTarget: RxTarget {
     override func dispose() {
         super.dispose()
 #if DEBUG
-        MainScheduler.ensureRunningOnMainThread()
+        MainScheduler.ensureExecutingOnScheduler()
 #endif
         
         barButtonItem?.target = nil
@@ -78,7 +77,7 @@ final class BarButtonItemTarget: RxTarget {
         callback = nil
     }
     
-    @objc func action(_ sender: AnyObject) {
+    func action(_ sender: AnyObject) {
         callback()
     }
     

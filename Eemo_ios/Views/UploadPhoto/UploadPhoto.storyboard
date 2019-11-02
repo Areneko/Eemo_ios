@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YB3-ay-thE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="q0L-Nm-0D0">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
@@ -15,59 +15,76 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ScW-o3-DUZ">
-                                <rect key="frame" x="10" y="98" width="355" height="532.66666666666663"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="ScW-o3-DUZ" secondAttribute="height" multiplier="2:3" id="IWw-XQ-IUB"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-image" translatesAutoresizingMaskIntoConstraints="NO" id="en8-uH-6sp">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C0H-bk-8fr">
-                                <rect key="frame" x="63" y="708" width="73" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="pick photo"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Btu-OS-Xsz">
-                                <rect key="frame" x="218" y="712" width="47" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="upload"/>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="kVi-71-BhL">
+                                <rect key="frame" x="40" y="681" width="295" height="62"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Imp-bU-Zkv">
+                                        <rect key="frame" x="0.0" y="0.0" width="228" height="62"/>
+                                        <color key="backgroundColor" red="0.89813512563705444" green="0.42604347226615813" blue="0.29706117506239993" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Imp-bU-Zkv" secondAttribute="height" multiplier="11:3" id="V3v-AB-Dnf"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <state key="normal" title="Upload">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="upload" destination="q0L-Nm-0D0" eventType="touchUpInside" id="rwr-qh-vKB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TPd-Pg-Yv7">
+                                        <rect key="frame" x="233" y="0.0" width="62" height="62"/>
+                                        <color key="backgroundColor" red="0.91764705882352937" green="0.97066493547794641" blue="1" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="TPd-Pg-Yv7" secondAttribute="height" multiplier="1:1" id="jjr-bI-xGW"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <state key="normal" title="Pick">
+                                            <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pickImage" destination="q0L-Nm-0D0" eventType="touchUpInside" id="DGN-mY-PDU"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Eemo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XKR-pP-C8P">
+                                <rect key="frame" x="40" y="63.999999999999993" width="132.66666666666666" height="64.333333333333314"/>
+                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="55"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="ScW-o3-DUZ" firstAttribute="leading" secondItem="6Ah-d5-N69" secondAttribute="leading" constant="10" id="DyL-6B-yIs"/>
-                            <constraint firstItem="ScW-o3-DUZ" firstAttribute="top" secondItem="6Ah-d5-N69" secondAttribute="top" constant="10" id="rWD-n1-T6v"/>
-                            <constraint firstItem="6Ah-d5-N69" firstAttribute="trailing" secondItem="ScW-o3-DUZ" secondAttribute="trailing" constant="10" id="rsY-Oc-3HP"/>
+                            <constraint firstItem="XKR-pP-C8P" firstAttribute="top" secondItem="6Ah-d5-N69" secondAttribute="top" constant="20" id="0ng-od-9Or"/>
+                            <constraint firstItem="en8-uH-6sp" firstAttribute="leading" secondItem="6Ah-d5-N69" secondAttribute="leading" id="1jL-2K-cY2"/>
+                            <constraint firstItem="kVi-71-BhL" firstAttribute="leading" secondItem="6Ah-d5-N69" secondAttribute="leading" constant="40" id="ACe-gj-X7p"/>
+                            <constraint firstItem="6Ah-d5-N69" firstAttribute="bottom" secondItem="kVi-71-BhL" secondAttribute="bottom" constant="35" id="CYL-EO-f2a"/>
+                            <constraint firstItem="en8-uH-6sp" firstAttribute="trailing" secondItem="6Ah-d5-N69" secondAttribute="trailing" id="L29-m9-XgW"/>
+                            <constraint firstItem="en8-uH-6sp" firstAttribute="top" secondItem="v0A-ua-qaS" secondAttribute="top" id="WXK-Jh-ngk"/>
+                            <constraint firstItem="XKR-pP-C8P" firstAttribute="leading" secondItem="6Ah-d5-N69" secondAttribute="leading" constant="40" id="gXG-Re-teX"/>
+                            <constraint firstAttribute="bottom" secondItem="en8-uH-6sp" secondAttribute="bottom" id="lgb-py-dUr"/>
+                            <constraint firstItem="6Ah-d5-N69" firstAttribute="trailing" secondItem="kVi-71-BhL" secondAttribute="trailing" constant="40" id="ttH-rc-ikx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Ah-d5-N69"/>
                     </view>
                     <navigationItem key="navigationItem" title="Eemo" id="sEW-qZ-Mci"/>
                     <connections>
-                        <outlet property="imageView" destination="ScW-o3-DUZ" id="COu-hS-piY"/>
-                        <outlet property="pickButton" destination="C0H-bk-8fr" id="nX1-tR-NN1"/>
-                        <outlet property="uploadButton" destination="Btu-OS-Xsz" id="32u-lI-ka8"/>
+                        <outlet property="imageView" destination="en8-uH-6sp" id="54x-mZ-d0N"/>
+                        <outlet property="pickButton" destination="TPd-Pg-Yv7" id="6nE-1p-tyl"/>
+                        <outlet property="uploadButton" destination="Imp-bU-Zkv" id="svZ-mv-ai0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o12-yG-49d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="997.10144927536237" y="77.678571428571431"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="7hw-AB-nLo">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YB3-ay-thE" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="L62-Ga-h8P">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="q0L-Nm-0D0" kind="relationship" relationship="rootViewController" id="fTp-Vk-sOA"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HPE-cs-qXR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="86.956521739130437" y="77.678571428571431"/>
+            <point key="canvasLocation" x="996" y="77.58620689655173"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="default-image" width="6000" height="4000"/>
+    </resources>
 </document>

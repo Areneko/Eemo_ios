@@ -1,42 +1,48 @@
 //
 //  DispatchQueueConfiguration.swift
-//  RxSwift
+//  Rx
 //
 //  Created by Krunoslav Zaher on 7/23/16.
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
-import Dispatch
-import struct Foundation.TimeInterval
+import Foundation
 
 struct DispatchQueueConfiguration {
     let queue: DispatchQueue
     let leeway: DispatchTimeInterval
 }
 
+private func dispatchInterval(_ interval: Foundation.TimeInterval) -> DispatchTimeInterval {
+    precondition(interval >= 0.0)
+    // TODO: Replace 1000 with something that actually works 
+    // NSEC_PER_MSEC returns 1000000
+    return DispatchTimeInterval.milliseconds(Int(interval * 1000.0))
+}
+
 extension DispatchQueueConfiguration {
     func schedule<StateType>(_ state: StateType, action: @escaping (StateType) -> Disposable) -> Disposable {
         let cancel = SingleAssignmentDisposable()
 
-        self.queue.async {
+        queue.async {
             if cancel.isDisposed {
                 return
             }
 
 
-            cancel.setDisposable(action(state))
+            cancel.disposable = action(state)
         }
 
         return cancel
     }
 
-    func scheduleRelative<StateType>(_ state: StateType, dueTime: RxTimeInterval, action: @escaping (StateType) -> Disposable) -> Disposable {
-        let deadline = DispatchTime.now() + dueTime
+    func scheduleRelative<StateType>(_ state: StateType, dueTime: Foundation.TimeInterval, action: @escaping (StateType) -> Disposable) -> Disposable {
+        let deadline = DispatchTime.now() + dispatchInterval(dueTime)
 
         let compositeDisposable = CompositeDisposable()
 
-        let timer = DispatchSource.makeTimerSource(queue: self.queue)
-        timer.schedule(deadline: deadline, leeway: self.leeway)
+        let timer = DispatchSource.makeTimerSource(queue: queue)
+        timer.scheduleOneshot(deadline: deadline)
 
         // TODO:
         // This looks horrible, and yes, it is.
@@ -64,14 +70,14 @@ extension DispatchQueueConfiguration {
         return compositeDisposable
     }
 
-    func schedulePeriodic<StateType>(_ state: StateType, startAfter: RxTimeInterval, period: RxTimeInterval, action: @escaping (StateType) -> StateType) -> Disposable {
-        let initial = DispatchTime.now() + startAfter
+    func schedulePeriodic<StateType>(_ state: StateType, startAfter: TimeInterval, period: TimeInterval, action: @escaping (StateType) -> StateType) -> Disposable {
+        let initial = DispatchTime.now() + dispatchInterval(startAfter)
 
         var timerState = state
 
-        let timer = DispatchSource.makeTimerSource(queue: self.queue)
-        timer.schedule(deadline: initial, repeating: period, leeway: self.leeway)
-        
+        let timer = DispatchSource.makeTimerSource(queue: queue)
+        timer.scheduleRepeating(deadline: initial, interval: dispatchInterval(period), leeway: leeway)
+
         // TODO:
         // This looks horrible, and yes, it is.
         // It looks like Apple has made a conceputal change here, and I'm unsure why.

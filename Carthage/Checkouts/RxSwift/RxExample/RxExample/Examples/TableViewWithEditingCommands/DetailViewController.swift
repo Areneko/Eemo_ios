@@ -7,13 +7,15 @@
 //
 
 import UIKit
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 
 class DetailViewController: ViewController {
     
     var user: User!
     
-    let `$` = Dependencies.sharedDependencies
+    let $ = Dependencies.sharedDependencies
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var label: UILabel!
@@ -26,14 +28,13 @@ class DetailViewController: ViewController {
         let url = URL(string: user.imageURL)!
         let request = URLRequest(url: url)
         
-        URLSession.shared.rx.data(request: request)
+        URLSession.shared.rx.data(request)
             .map { data in
                 UIImage(data: data)
             }
-            .observeOn(`$`.mainScheduler)
-            .catchErrorJustReturn(nil)
+            .observeOn($.mainScheduler)
             .subscribe(imageView.rx.image)
-            .disposed(by: disposeBag)
+            .addDisposableTo(disposeBag)
         
         label.text = user.firstName + " " + user.lastName
     }

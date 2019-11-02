@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		C111A5782366F6FE008EB354 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5772366F6FE008EB354 /* AppDelegate.swift */; };
-		C111A57A2366F6FE008EB354 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5792366F6FE008EB354 /* SceneDelegate.swift */; };
 		C111A5812366F700008EB354 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C111A5802366F700008EB354 /* Assets.xcassets */; };
 		C111A5842366F700008EB354 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C111A5822366F700008EB354 /* LaunchScreen.storyboard */; };
 		C111A58F2366F700008EB354 /* Eemo_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A58E2366F700008EB354 /* Eemo_iosTests.swift */; };
@@ -20,13 +19,13 @@
 		C111A5B72366F920008EB354 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5B62366F920008EB354 /* App.swift */; };
 		C111A5BA2366FA48008EB354 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111A5B92366FA48008EB354 /* APIClient.swift */; };
 		C111A5BC2366FB7B008EB354 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C111A5BB2366FB7B008EB354 /* Default-568h@2x.png */; };
+		C181FA3E236A897500B30CB6 /* UploadPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C181FA3D236A897500B30CB6 /* UploadPhotoViewModel.swift */; };
 		C18FD4FC236729E80031027F /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18FD4FB236729E80031027F /* UIImageView.swift */; };
-		C18FD5012367CAFC0031027F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD4FE2367CAFC0031027F /* RxCocoa.framework */; };
-		C18FD5022367CAFC0031027F /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD4FE2367CAFC0031027F /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C18FD5032367CAFC0031027F /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD4FF2367CAFC0031027F /* RxRelay.framework */; };
-		C18FD5042367CAFC0031027F /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD4FF2367CAFC0031027F /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C18FD5052367CAFC0031027F /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD5002367CAFC0031027F /* RxSwift.framework */; };
-		C18FD5062367CAFC0031027F /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C18FD5002367CAFC0031027F /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C1EB13AE236BC6C500762932 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB13AD236BC6C500762932 /* NotificationNames.swift */; };
+		C1EB13B0236BD46200762932 /* UploadPhoto+ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB13AF236BD46200762932 /* UploadPhoto+ImagePickerController.swift */; };
+		C1EB13B7236C319B00762932 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB13B6236C319B00762932 /* SceneDelegate.swift */; };
+		C1EB13BF236D371700762932 /* NVActivityIndicatorView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1EB13BE236D371700762932 /* NVActivityIndicatorView.framework */; };
+		C1EB13C0236D371700762932 /* NVActivityIndicatorView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C1EB13BE236D371700762932 /* NVActivityIndicatorView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,15 +46,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C18FD5072367CAFC0031027F /* Embed Frameworks */ = {
+		C1EB13BB236D28AD00762932 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C18FD5042367CAFC0031027F /* RxRelay.framework in Embed Frameworks */,
-				C18FD5022367CAFC0031027F /* RxCocoa.framework in Embed Frameworks */,
-				C18FD5062367CAFC0031027F /* RxSwift.framework in Embed Frameworks */,
+				C1EB13C0236D371700762932 /* NVActivityIndicatorView.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,7 +62,6 @@
 /* Begin PBXFileReference section */
 		C111A5742366F6FE008EB354 /* Eemo_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eemo_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C111A5772366F6FE008EB354 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C111A5792366F6FE008EB354 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C111A5802366F700008EB354 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C111A5832366F700008EB354 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C111A5852366F700008EB354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,10 +78,12 @@
 		C111A5B62366F920008EB354 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		C111A5B92366FA48008EB354 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		C111A5BB2366FB7B008EB354 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C181FA3D236A897500B30CB6 /* UploadPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPhotoViewModel.swift; sourceTree = "<group>"; };
 		C18FD4FB236729E80031027F /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
-		C18FD4FE2367CAFC0031027F /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
-		C18FD4FF2367CAFC0031027F /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxRelay.framework; path = Carthage/Build/iOS/RxRelay.framework; sourceTree = "<group>"; };
-		C18FD5002367CAFC0031027F /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		C1EB13AD236BC6C500762932 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
+		C1EB13AF236BD46200762932 /* UploadPhoto+ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UploadPhoto+ImagePickerController.swift"; sourceTree = "<group>"; };
+		C1EB13B6236C319B00762932 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C1EB13BE236D371700762932 /* NVActivityIndicatorView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NVActivityIndicatorView.framework; path = Carthage/Build/iOS/NVActivityIndicatorView.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,9 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C18FD5032367CAFC0031027F /* RxRelay.framework in Frameworks */,
-				C18FD5012367CAFC0031027F /* RxCocoa.framework in Frameworks */,
-				C18FD5052367CAFC0031027F /* RxSwift.framework in Frameworks */,
+				C1EB13BF236D371700762932 /* NVActivityIndicatorView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,9 +167,9 @@
 		C111A5A72366F7C7008EB354 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				C111A5792366F6FE008EB354 /* SceneDelegate.swift */,
 				C111A5772366F6FE008EB354 /* AppDelegate.swift */,
 				C111A5B62366F920008EB354 /* App.swift */,
+				C1EB13B6236C319B00762932 /* SceneDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -202,6 +198,7 @@
 			children = (
 				C111A5AC2366F851008EB354 /* UploadPhoto.storyboard */,
 				C111A5AA2366F847008EB354 /* UploadPhotoViewController.swift */,
+				C181FA3D236A897500B30CB6 /* UploadPhotoViewModel.swift */,
 			);
 			path = UploadPhoto;
 			sourceTree = "<group>";
@@ -227,6 +224,8 @@
 			isa = PBXGroup;
 			children = (
 				C18FD4FB236729E80031027F /* UIImageView.swift */,
+				C1EB13AD236BC6C500762932 /* NotificationNames.swift */,
+				C1EB13AF236BD46200762932 /* UploadPhoto+ImagePickerController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -234,9 +233,7 @@
 		C18FD4FD2367CAFB0031027F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C18FD4FE2367CAFC0031027F /* RxCocoa.framework */,
-				C18FD4FF2367CAFC0031027F /* RxRelay.framework */,
-				C18FD5002367CAFC0031027F /* RxSwift.framework */,
+				C1EB13BE236D371700762932 /* NVActivityIndicatorView.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -251,9 +248,9 @@
 				C111A5702366F6FE008EB354 /* Sources */,
 				C111A5712366F6FE008EB354 /* Frameworks */,
 				C111A5722366F6FE008EB354 /* Resources */,
-				C18FD5072367CAFC0031027F /* Embed Frameworks */,
-				C18FD5082367CB030031027F /* RxSwift Run Script */,
 				C18FD5092367CBDF0031027F /* SwiftLint Run Script */,
+				C1EB13B5236C2FE800762932 /* Carthage -  Run Script */,
+				C1EB13BB236D28AD00762932 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -373,27 +370,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C18FD5082367CB030031027F /* RxSwift Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RxRelay.framework",
-			);
-			name = "RxSwift Run Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
-		};
 		C18FD5092367CBDF0031027F /* SwiftLint Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -412,6 +388,25 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		C1EB13B5236C2FE800762932 /* Carthage -  Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/NVActivityIndicatorView.framework",
+			);
+			name = "Carthage -  Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -419,12 +414,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C181FA3E236A897500B30CB6 /* UploadPhotoViewModel.swift in Sources */,
 				C111A5782366F6FE008EB354 /* AppDelegate.swift in Sources */,
 				C111A5AB2366F847008EB354 /* UploadPhotoViewController.swift in Sources */,
 				C18FD4FC236729E80031027F /* UIImageView.swift in Sources */,
+				C1EB13AE236BC6C500762932 /* NotificationNames.swift in Sources */,
 				C111A5B72366F920008EB354 /* App.swift in Sources */,
+				C1EB13B7236C319B00762932 /* SceneDelegate.swift in Sources */,
 				C111A5BA2366FA48008EB354 /* APIClient.swift in Sources */,
-				C111A57A2366F6FE008EB354 /* SceneDelegate.swift in Sources */,
+				C1EB13B0236BD46200762932 /* UploadPhoto+ImagePickerController.swift in Sources */,
 				C111A5B12366F883008EB354 /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -601,7 +599,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ren.Eemo-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = com.areneko.eemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -623,7 +621,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ren.Eemo-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = com.areneko.eemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

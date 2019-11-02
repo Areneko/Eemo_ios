@@ -1,7 +1,85 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <scenes/>
+    <scenes>
+        <!--Result View Controller-->
+        <scene sceneID="eYL-uo-SE2">
+            <objects>
+                <viewController storyboardIdentifier="Result" id="0uW-4g-V6R" customClass="ResultViewController" customModule="Eemo_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Dci-v1-K4L">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-image" translatesAutoresizingMaskIntoConstraints="NO" id="quC-zy-xiW">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6n6-t8-8XR">
+                                <rect key="frame" x="219" y="543" width="0.0" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWz-2a-6JF">
+                                <rect key="frame" x="152" y="553" width="0.0" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARB-1t-Mj3">
+                                <rect key="frame" x="40" y="760" width="334" height="67"/>
+                                <color key="backgroundColor" red="0.89813512559999997" green="0.4260434723" blue="0.29706117510000002" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ARB-1t-Mj3" secondAttribute="height" multiplier="5:1" id="M6K-vd-ZS4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <state key="normal" title="Share">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="shere" destination="0uW-4g-V6R" eventType="touchUpInside" id="Woy-Fi-AfN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qYb-M5-CLU">
+                                <rect key="frame" x="20" y="44" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="HfN-NM-hwU"/>
+                                    <constraint firstAttribute="height" constant="40" id="cNb-wq-oOX"/>
+                                </constraints>
+                                <state key="normal" image="dismiss"/>
+                                <connections>
+                                    <action selector="dismiss" destination="0uW-4g-V6R" eventType="touchUpInside" id="9o5-y3-S6c"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="qYb-M5-CLU" firstAttribute="top" secondItem="NcH-Bo-Kwe" secondAttribute="top" id="1TW-Z7-P5p"/>
+                            <constraint firstItem="quC-zy-xiW" firstAttribute="top" secondItem="Dci-v1-K4L" secondAttribute="top" id="HQd-1n-FFj"/>
+                            <constraint firstItem="ARB-1t-Mj3" firstAttribute="leading" secondItem="NcH-Bo-Kwe" secondAttribute="leading" constant="40" id="KcL-3e-zOY"/>
+                            <constraint firstItem="NcH-Bo-Kwe" firstAttribute="trailing" secondItem="ARB-1t-Mj3" secondAttribute="trailing" constant="40" id="R50-od-rud"/>
+                            <constraint firstItem="quC-zy-xiW" firstAttribute="leading" secondItem="NcH-Bo-Kwe" secondAttribute="leading" id="WPy-qC-2fl"/>
+                            <constraint firstItem="NcH-Bo-Kwe" firstAttribute="bottom" secondItem="ARB-1t-Mj3" secondAttribute="bottom" constant="35" id="YBc-wc-1qI"/>
+                            <constraint firstAttribute="bottom" secondItem="quC-zy-xiW" secondAttribute="bottom" id="i36-dH-4nf"/>
+                            <constraint firstItem="NcH-Bo-Kwe" firstAttribute="trailing" secondItem="quC-zy-xiW" secondAttribute="trailing" id="kaR-Wj-dlE"/>
+                            <constraint firstItem="qYb-M5-CLU" firstAttribute="leading" secondItem="NcH-Bo-Kwe" secondAttribute="leading" constant="20" id="qsC-Qd-MCv"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="NcH-Bo-Kwe"/>
+                    </view>
+                    <connections>
+                        <outlet property="emoImageView" destination="quC-zy-xiW" id="2oY-za-val"/>
+                        <outlet property="shareButton" destination="ARB-1t-Mj3" id="yXg-A3-3Ju"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xq0-HZ-8iu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5.7971014492753632" y="140.625"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="default-image" width="6000" height="4000"/>
+        <image name="dismiss" width="150" height="150"/>
+    </resources>
 </document>

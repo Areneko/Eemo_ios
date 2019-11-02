@@ -9,5 +9,5 @@
 import Foundation
 
 struct App {
-    static let baseURL: URL = URL(string: "http://localhost:8080/generate")!
+    static let baseURL: URL = URL(string: "https://eemo-backend.herokuapp.com/api/generate")!
 }

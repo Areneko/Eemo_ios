@@ -1,1 +1,1 @@
-../../RxSwift/Observables/Deferred.swift
+../../RxSwift/Observables/Implementations/Deferred.swift

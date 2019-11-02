@@ -1,140 +1,43 @@
 //
 //  BlockingObservable+Operators.swift
-//  RxBlocking
+//  Rx
 //
 //  Created by Krunoslav Zaher on 10/19/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import RxSwift
-
-/// The `MaterializedSequenceResult` enum represents the materialized
-/// output of a BlockingObservable.
-///
-/// If the sequence terminates successfully, the result is represented
-/// by `.completed` with the array of elements.
-///
-/// If the sequence terminates with error, the result is represented
-/// by `.failed` with both the array of elements and the terminating error.
-public enum MaterializedSequenceResult<T> {
-    case completed(elements: [T])
-    case failed(elements: [T], error: Error)
-}
+import Foundation
+#if !RX_NO_MODULE
+    import RxSwift
+#endif
 
 extension BlockingObservable {
-    /// Blocks current thread until sequence terminates.
-    ///
-    /// If sequence terminates with error, terminating error will be thrown.
-    ///
-    /// - returns: All elements of sequence.
-    public func toArray() throws -> [Element] {
-        let results = self.materializeResult()
-        return try self.elementsOrThrow(results)
-    }
-}
+    /**
+     Blocks current thread until sequence terminates.
 
-extension BlockingObservable {
-    /// Blocks current thread until sequence produces first element.
-    ///
-    /// If sequence terminates with error before producing first element, terminating error will be thrown.
-    ///
-    /// - returns: First element of sequence. If sequence is empty `nil` is returned.
-    public func first() throws -> Element? {
-        let results = self.materializeResult(max: 1)
-        return try self.elementsOrThrow(results).first
-    }
-}
+     If sequence terminates with error, terminating error will be thrown.
 
-extension BlockingObservable {
-    /// Blocks current thread until sequence terminates.
-    ///
-    /// If sequence terminates with error, terminating error will be thrown.
-    ///
-    /// - returns: Last element in the sequence. If sequence is empty `nil` is returned.
-    public func last() throws -> Element? {
-        let results = self.materializeResult()
-        return try self.elementsOrThrow(results).last
-    }
-}
+     - returns: All elements of sequence.
+     */
+    public func toArray() throws -> [E] {
+        var elements: [E] = Array<E>()
 
-extension BlockingObservable {
-    /// Blocks current thread until sequence terminates.
-    ///
-    /// If sequence terminates with error before producing first element, terminating error will be thrown.
-    ///
-    /// - returns: Returns the only element of an sequence, and reports an error if there is not exactly one element in the observable sequence.
-    public func single() throws -> Element {
-        return try self.single { _ in true }
-    }
-
-    /// Blocks current thread until sequence terminates.
-    ///
-    /// If sequence terminates with error before producing first element, terminating error will be thrown.
-    ///
-    /// - parameter predicate: A function to test each source element for a condition.
-    /// - returns: Returns the only element of an sequence that satisfies the condition in the predicate, and reports an error if there is not exactly one element in the sequence.
-    public func single(_ predicate: @escaping (Element) throws -> Bool) throws -> Element {
-        let results = self.materializeResult(max: 2, predicate: predicate)
-        let elements = try self.elementsOrThrow(results)
-
-        if elements.count > 1 {
-            throw RxError.moreThanOneElement
-        }
-
-        guard let first = elements.first else {
-            throw RxError.noElements
-        }
-
-        return first
-    }
-}
-
-extension BlockingObservable {
-    /// Blocks current thread until sequence terminates.
-    ///
-    /// The sequence is materialized as a result type capturing how the sequence terminated (completed or error), along with any elements up to that point.
-    ///
-    /// - returns: On completion, returns the list of elements in the sequence. On error, returns the list of elements up to that point, along with the error itself.
-    public func materialize() -> MaterializedSequenceResult<Element> {
-        return self.materializeResult()
-    }
-}
-
-extension BlockingObservable {
-    fileprivate func materializeResult(max: Int? = nil, predicate: @escaping (Element) throws -> Bool = { _ in true }) -> MaterializedSequenceResult<Element> {
-        var elements = [Element]()
         var error: Swift.Error?
-        
-        let lock = RunLoopLock(timeout: self.timeout)
-        
+
+        let lock = RunLoopLock()
+
         let d = SingleAssignmentDisposable()
-        
-        defer {
-            d.dispose()
-        }
-        
+
         lock.dispatch {
-            let subscription = self.source.subscribe { event in
+            d.disposable = self.source.subscribe { e in
                 if d.isDisposed {
                     return
                 }
-                switch event {
+                switch e {
                 case .next(let element):
-                    do {
-                        if try predicate(element) {
-                            elements.append(element)
-                        }
-                        if let max = max, elements.count >= max {
-                            d.dispose()
-                            lock.stop()
-                        }
-                    } catch let err {
-                        error = err
-                        d.dispose()
-                        lock.stop()
-                    }
-                case .error(let err):
-                    error = err
+                    elements.append(element)
+                case .error(let e):
+                    error = e
                     d.dispose()
                     lock.stop()
                 case .completed:
@@ -142,29 +45,192 @@ extension BlockingObservable {
                     lock.stop()
                 }
             }
-            
-            d.setDisposable(subscription)
+        }
+
+        lock.run()
+
+        d.dispose()
+
+        if let error = error {
+            throw error
+        }
+
+        return elements
+    }
+}
+
+extension BlockingObservable {
+    /**
+     Blocks current thread until sequence produces first element.
+
+     If sequence terminates with error before producing first element, terminating error will be thrown.
+
+     - returns: First element of sequence. If sequence is empty `nil` is returned.
+     */
+    public func first() throws -> E? {
+        var element: E?
+
+        var error: Swift.Error?
+
+        let d = SingleAssignmentDisposable()
+
+        let lock = RunLoopLock()
+
+        lock.dispatch {
+            d.disposable = self.source.subscribe { e in
+                if d.isDisposed {
+                    return
+                }
+
+                switch e {
+                case .next(let e):
+                    if element == nil {
+                        element = e
+                    }
+                    break
+                case .error(let e):
+                    error = e
+                default:
+                    break
+                }
+
+                d.dispose()
+                lock.stop()
+            }
+        }
+
+        lock.run()
+
+        d.dispose()
+
+        if let error = error {
+            throw error
+        }
+
+        return element
+    }
+}
+
+extension BlockingObservable {
+    /**
+     Blocks current thread until sequence terminates.
+
+     If sequence terminates with error, terminating error will be thrown.
+
+     - returns: Last element in the sequence. If sequence is empty `nil` is returned.
+     */
+    public func last() throws -> E? {
+        var element: E?
+
+        var error: Swift.Error?
+
+        let d = SingleAssignmentDisposable()
+
+        let lock = RunLoopLock()
+
+        lock.dispatch {
+            d.disposable = self.source.subscribe { e in
+                if d.isDisposed {
+                    return
+                }
+                switch e {
+                case .next(let e):
+                    element = e
+                    return
+                case .error(let e):
+                    error = e
+                default:
+                    break
+                }
+
+                d.dispose()
+                lock.stop()
+            }
         }
         
-        do {
-            try lock.run()
-        } catch let err {
-            error = err
-        }
+        lock.run()
+        
+        d.dispose()
         
         if let error = error {
-            return MaterializedSequenceResult.failed(elements: elements, error: error)
+            throw error
         }
         
-        return MaterializedSequenceResult.completed(elements: elements)
+        return element
     }
-    
-    fileprivate func elementsOrThrow(_ results: MaterializedSequenceResult<Element>) throws -> [Element] {
-        switch results {
-        case .failed(_, let error):
-            throw error
-        case .completed(let elements):
-            return elements
+}
+
+extension BlockingObservable {
+    /**
+     Blocks current thread until sequence terminates.
+     
+     If sequence terminates with error before producing first element, terminating error will be thrown.
+     
+     - returns: Returns the only element of an sequence, and reports an error if there is not exactly one element in the observable sequence.
+     */
+    public func single() throws -> E? {
+        return try single { _ in true }
+    }
+
+    /**
+     Blocks current thread until sequence terminates.
+     
+     If sequence terminates with error before producing first element, terminating error will be thrown.
+     
+     - parameter predicate: A function to test each source element for a condition.
+     - returns: Returns the only element of an sequence that satisfies the condition in the predicate, and reports an error if there is not exactly one element in the sequence.
+     */
+    public func single(_ predicate: @escaping (E) throws -> Bool) throws -> E? {
+        var element: E?
+        
+        var error: Swift.Error?
+        
+        let d = SingleAssignmentDisposable()
+        
+        let lock = RunLoopLock()
+        
+        lock.dispatch {
+            d.disposable = self.source.subscribe { e in
+                if d.isDisposed {
+                    return
+                }
+                switch e {
+                case .next(let e):
+                    do {
+                        if try !predicate(e) {
+                            return
+                        }
+                        if element == nil {
+                            element = e
+                        } else {
+                            throw RxError.moreThanOneElement
+                        }
+                    } catch (let err) {
+                        error = err
+                        d.dispose()
+                        lock.stop()
+                    }
+                    return
+                case .error(let e):
+                    error = e
+                case .completed:
+                    if element == nil {
+                        error = RxError.noElements
+                    }
+                }
+
+                d.dispose()
+                lock.stop()
+            }
         }
+        
+        lock.run()
+        d.dispose()
+        
+        if let error = error {
+            throw error
+        }
+        
+        return element
     }
 }

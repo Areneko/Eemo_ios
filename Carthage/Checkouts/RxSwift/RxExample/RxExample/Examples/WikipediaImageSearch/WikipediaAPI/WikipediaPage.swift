@@ -1,18 +1,24 @@
 //
 //  WikipediaPage.swift
-//  RxExample
+//  Example
 //
 //  Created by Krunoslav Zaher on 3/28/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
+#if !RX_NO_MODULE
 import RxSwift
-
-import class Foundation.NSDictionary
+#endif
 
 struct WikipediaPage {
     let title: String
     let text: String
+    
+    init(title: String, text: String) {
+        self.title = title
+        self.text = text
+    }
     
     // tedious parsing part
     static func parseJSON(_ json: NSDictionary) throws -> WikipediaPage {

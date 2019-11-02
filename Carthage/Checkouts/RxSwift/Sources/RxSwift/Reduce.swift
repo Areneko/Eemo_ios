@@ -1,1 +1,1 @@
-../../RxSwift/Observables/Reduce.swift
+../../RxSwift/Observables/Implementations/Reduce.swift

@@ -6,23 +6,29 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
+
 private let disposeScheduledDisposable: (ScheduledDisposable) -> Disposable = { sd in
     sd.disposeInner()
     return Disposables.create()
 }
 
-/// Represents a disposable resource whose disposal invocation will be scheduled on the specified scheduler.
+/**
+Represents a disposable resource whose disposal invocation will be scheduled on the specified scheduler.
+*/
 public final class ScheduledDisposable : Cancelable {
     public let scheduler: ImmediateSchedulerType
 
-    private let _isDisposed = AtomicInt(0)
+    private var _isDisposed: AtomicInt = 0
 
     // state
     private var _disposable: Disposable?
 
-    /// - returns: Was resource disposed.
+    /**
+    - returns: Was resource disposed.
+    */
     public var isDisposed: Bool {
-        return isFlagSet(self._isDisposed, 1)
+        return _isDisposed == 1
     }
 
     /**
@@ -33,18 +39,20 @@ public final class ScheduledDisposable : Cancelable {
     */
     public init(scheduler: ImmediateSchedulerType, disposable: Disposable) {
         self.scheduler = scheduler
-        self._disposable = disposable
+        _disposable = disposable
     }
 
-    /// Disposes the wrapped disposable on the provided scheduler.
+    /**
+    Disposes the wrapped disposable on the provided scheduler.
+    */
     public func dispose() {
-        _ = self.scheduler.schedule(self, action: disposeScheduledDisposable)
+        let _ = scheduler.schedule(self, action: disposeScheduledDisposable)
     }
 
     func disposeInner() {
-        if fetchOr(self._isDisposed, 1) == 0 {
-            self._disposable!.dispose()
-            self._disposable = nil
+        if AtomicCompareAndSwap(0, 1, &_isDisposed) {
+            _disposable!.dispose()
+            _disposable = nil
         }
     }
 }

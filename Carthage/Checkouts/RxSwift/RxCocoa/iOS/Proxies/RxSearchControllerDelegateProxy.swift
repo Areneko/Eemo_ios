@@ -1,40 +1,44 @@
 //
 //  RxSearchControllerDelegateProxy.swift
-//  RxCocoa
+//  Rx
 //
 //  Created by Segii Shulga on 3/17/16.
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
 #if os(iOS)
+   
+   import Foundation
+#if !RX_NO_MODULE
+   import RxSwift
+#endif
+   import UIKit
 
-import RxSwift
-import UIKit
-
-extension UISearchController: HasDelegate {
-    public typealias Delegate = UISearchControllerDelegate
-}
-
-/// For more information take a look at `DelegateProxyType`.
+/**
+ For more information take a look at `DelegateProxyType`.
+ */
 @available(iOS 8.0, *)
-open class RxSearchControllerDelegateProxy
-    : DelegateProxy<UISearchController, UISearchControllerDelegate>
-    , DelegateProxyType 
+public class RxSearchControllerDelegateProxy
+    : DelegateProxy
+    , DelegateProxyType
     , UISearchControllerDelegate {
-
-    /// Typed parent object.
-    public weak private(set) var searchController: UISearchController?
-
-    /// - parameter searchController: Parent object for delegate proxy.
-    public init(searchController: UISearchController) {
-        self.searchController = searchController
-        super.init(parentObject: searchController, delegateProxy: RxSearchControllerDelegateProxy.self)
+    
+    /**
+     For more information take a look at `DelegateProxyType`.
+     */
+    public class func setCurrentDelegate(_ delegate: AnyObject?, toObject object: AnyObject) {
+        let searchController: UISearchController = castOrFatalError(object)
+        searchController.delegate = castOptionalOrFatalError(delegate)
     }
     
-    // Register known implementations
-    public static func registerKnownImplementations() {
-        self.register { RxSearchControllerDelegateProxy(searchController: $0) }
+    /**
+     For more information take a look at `DelegateProxyType`.
+     */
+    public class func currentDelegateFor(_ object: AnyObject) -> AnyObject? {
+        let searchController: UISearchController = castOrFatalError(object)
+        return searchController.delegate
     }
+    
 }
    
 #endif

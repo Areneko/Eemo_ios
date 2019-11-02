@@ -1,39 +1,43 @@
 //
 //  NSLayoutConstraint+Rx.swift
-//  RxCocoa
+//  Rx
 //
 //  Created by Krunoslav Zaher on 12/6/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-#if !os(Linux)
+import Foundation
 
-#if os(macOS)
-    import Cocoa
+#if os(OSX)
+import Cocoa
 #else
-    import UIKit
+import UIKit
 #endif
 
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 
-#if os(iOS) || os(macOS) || os(tvOS)
+#if os(iOS) || os(OSX) || os(tvOS)
 extension Reactive where Base: NSLayoutConstraint {
-    /// Bindable sink for `constant` property.
-    public var constant: Binder<CGFloat> {
-        return Binder(self.base) { constraint, constant in
+    /**
+     Bindable sink for `constant` property.
+     */
+    public var constant: AnyObserver<CGFloat> {
+        return UIBindingObserver(UIElement: self.base) { constraint, constant in
             constraint.constant = constant
-        }
+        }.asObserver()
     }
     
-    /// Bindable sink for `active` property.
+    /**
+     Bindable sink for `active` property.
+     */
     @available(iOS 8, OSX 10.10, *)
-    public var active: Binder<Bool> {
-        return Binder(self.base) { constraint, value in
+    public var active: AnyObserver<Bool> {
+        return UIBindingObserver(UIElement: self.base) { constraint, value in
             constraint.isActive = value
-        }
+        }.asObserver()
     }
 }
-
-#endif
 
 #endif

@@ -8,8 +8,11 @@
 
 #if os(iOS) || os(tvOS)
 
+import Foundation
 import UIKit
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 
 // objc monkey business
 class _RxCollectionViewReactiveArrayDataSource
@@ -38,17 +41,17 @@ class _RxCollectionViewReactiveArrayDataSource
     }
 }
 
-class RxCollectionViewReactiveArrayDataSourceSequenceWrapper<Sequence: Swift.Sequence>
-    : RxCollectionViewReactiveArrayDataSource<Sequence.Element>
+class RxCollectionViewReactiveArrayDataSourceSequenceWrapper<S: Sequence>
+    : RxCollectionViewReactiveArrayDataSource<S.Iterator.Element>
     , RxCollectionViewDataSourceType {
-    typealias Element = Sequence
+    typealias Element = S
 
-    override init(cellFactory: @escaping CellFactory) {
+    override init(cellFactory: CellFactory) {
         super.init(cellFactory: cellFactory)
     }
     
-    func collectionView(_ collectionView: UICollectionView, observedEvent: Event<Sequence>) {
-        Binder(self) { collectionViewDataSource, sectionModels in
+    func collectionView(_ collectionView: UICollectionView, observedEvent: Event<S>) {
+        UIBindingObserver(UIElement: self) { collectionViewDataSource, sectionModels in
             let sections = Array(sectionModels)
             collectionViewDataSource.collectionView(collectionView, observedElements: sections)
         }.on(observedEvent)
@@ -63,13 +66,13 @@ class RxCollectionViewReactiveArrayDataSource<Element>
     
     typealias CellFactory = (UICollectionView, Int, Element) -> UICollectionViewCell
     
-    var itemModels: [Element]?
+    var itemModels: [Element]? = nil
     
     func modelAtIndex(_ index: Int) -> Element? {
         return itemModels?[index]
     }
 
-    func model(at indexPath: IndexPath) throws -> Any {
+    func model(_ indexPath: IndexPath) throws -> Any {
         precondition(indexPath.section == 0)
         guard let item = itemModels?[indexPath.item] else {
             throw RxCocoaError.itemsNotYetBound(object: self)
@@ -79,7 +82,7 @@ class RxCollectionViewReactiveArrayDataSource<Element>
     
     var cellFactory: CellFactory
     
-    init(cellFactory: @escaping CellFactory) {
+    init(cellFactory: CellFactory) {
         self.cellFactory = cellFactory
     }
     
@@ -99,9 +102,6 @@ class RxCollectionViewReactiveArrayDataSource<Element>
         self.itemModels = observedElements
         
         collectionView.reloadData()
-
-        // workaround for http://stackoverflow.com/questions/39867325/ios-10-bug-uicollectionview-received-layout-attributes-for-a-cell-with-an-index
-        collectionView.collectionViewLayout.invalidateLayout()
     }
 }
 

@@ -1,14 +1,17 @@
 //
 //  CollectionViewImageCell.swift
-//  RxExample
+//  Example
 //
 //  Created by Krunoslav Zaher on 4/4/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import UIKit
+#if !RX_NO_MODULE
 import RxSwift
 import RxCocoa
+#endif
 
 public class CollectionViewImageCell: UICollectionViewCell {
     @IBOutlet var imageOutlet: UIImageView!
@@ -21,8 +24,8 @@ public class CollectionViewImageCell: UICollectionViewCell {
 
             self.downloadableImage?
                 .asDriver(onErrorJustReturn: DownloadableImage.offlinePlaceholder)
-                .drive(imageOutlet.rx.downloadableImageAnimated(CATransitionType.fade.rawValue))
-                .disposed(by: disposeBag)
+                .drive(imageOutlet.rx.downloadableImageAnimated(kCATransitionFade))
+                .addDisposableTo(disposeBag)
 
             self.disposeBag = disposeBag
         }
@@ -31,7 +34,6 @@ public class CollectionViewImageCell: UICollectionViewCell {
     override public func prepareForReuse() {
         super.prepareForReuse()
         
-        downloadableImage = nil
         disposeBag = nil
     }
 

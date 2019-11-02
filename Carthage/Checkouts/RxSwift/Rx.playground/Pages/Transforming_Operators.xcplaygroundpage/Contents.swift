@@ -1,8 +1,8 @@
 /*:
  > # IMPORTANT: To use **Rx.playground**:
  1. Open **Rx.xcworkspace**.
- 1. Build the **RxExample-macOS** scheme (**Product** → **Build**).
- 1. Open **Rx** playground in the **Project navigator** (under RxExample project).
+ 1. Build the **RxSwift-OSX** scheme (**Product** → **Build**).
+ 1. Open **Rx** playground in the **Project navigator**.
  1. Show the Debug Area (**View** → **Debug Area** → **Show Debug Area**).
  ----
  [Previous](@previous) - [Table of Contents](Table_of_Contents)
@@ -20,7 +20,7 @@ example("map") {
     Observable.of(1, 2, 3)
         .map { $0 * $0 }
         .subscribe(onNext: { print($0) })
-        .disposed(by: disposeBag)
+        .addDisposableTo(disposeBag)
 }
 /*:
  ----
@@ -32,30 +32,26 @@ example("flatMap and flatMapLatest") {
     let disposeBag = DisposeBag()
     
     struct Player {
-        init(score: Int) {
-            self.score = BehaviorSubject(value: score)
-        }
-
-        let score: BehaviorSubject<Int>
+        var score: Variable<Int>
     }
     
-    let 👦🏻 = Player(score: 80)
-    let 👧🏼 = Player(score: 90)
+    let 👦🏻 = Player(score: Variable(80))
+    let 👧🏼 = Player(score: Variable(90))
     
-    let player = BehaviorSubject(value: 👦🏻)
+    let player = Variable(👦🏻)
     
     player.asObservable()
         .flatMap { $0.score.asObservable() } // Change flatMap to flatMapLatest and observe change in printed output
         .subscribe(onNext: { print($0) })
-        .disposed(by: disposeBag)
+        .addDisposableTo(disposeBag)
     
-    👦🏻.score.onNext(85)
+    👦🏻.score.value = 85
     
-    player.onNext(👧🏼)
+    player.value = 👧🏼
     
-    👦🏻.score.onNext(95) // Will be printed when using flatMap, but will not be printed when using flatMapLatest
+    👦🏻.score.value = 95 // Will be printed when using flatMap, but will not be printed when using flatMapLatest
     
-    👧🏼.score.onNext(100)
+    👧🏼.score.value = 100
 }
 /*:
  > In this example, using `flatMap` may have unintended consequences. After assigning 👧🏼 to `player.value`, `👧🏼.score` will begin to emit elements, but the previous inner `Observable` sequence (`👦🏻.score`) will also still emit elements. By changing `flatMap` to `flatMapLatest`, only the most recent inner `Observable` sequence (`👧🏼.score`) will emit elements, i.e., setting `👦🏻.score.value` to `95` has no effect.
@@ -76,7 +72,7 @@ example("scan") {
             aggregateValue + newValue
         }
         .subscribe(onNext: { print($0) })
-        .disposed(by: disposeBag)
+        .addDisposableTo(disposeBag)
 }
 
 //: [Next](@next) - [Table of Contents](Table_of_Contents)

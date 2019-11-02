@@ -1,1 +1,1 @@
-../../RxSwift/Observables/Scan.swift
+../../RxSwift/Observables/Implementations/Scan.swift

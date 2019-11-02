@@ -1,34 +1,43 @@
 //
 //  WikipediaSearchResult.swift
-//  RxExample
+//  Example
 //
 //  Created by Krunoslav Zaher on 3/28/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
+#if !RX_NO_MODULE
 import RxSwift
-
-import struct Foundation.URL
+#endif
 
 struct WikipediaSearchResult: CustomDebugStringConvertible {
     let title: String
     let description: String
     let URL: Foundation.URL
 
+    init(title: String, description: String, URL: Foundation.URL) {
+        self.title = title
+        self.description = description
+        self.URL = URL
+    }
+
     // tedious parsing part
     static func parseJSON(_ json: [AnyObject]) throws -> [WikipediaSearchResult] {
-        let rootArrayTyped = json.compactMap { $0 as? [AnyObject] }
-        
-        guard rootArrayTyped.count == 3 else {
+        let rootArrayTyped = json.map { $0 as? [AnyObject] }
+            .filter { $0 != nil }
+            .map { $0! }
+
+        if rootArrayTyped.count != 3 {
             throw WikipediaParseError
         }
-        
-        let (titles, descriptions, urls) = (rootArrayTyped[0], rootArrayTyped[1], rootArrayTyped[2])
 
-        let titleDescriptionAndUrl: [((AnyObject, AnyObject), AnyObject)] = Array(zip(zip(titles, descriptions), urls))
+        let titleAndDescription = Array(zip(rootArrayTyped[0], rootArrayTyped[1]))
+        let titleDescriptionAndUrl: [((AnyObject, AnyObject), AnyObject)] = Array(zip(titleAndDescription, rootArrayTyped[2]))
         
-        return try titleDescriptionAndUrl.map { result -> WikipediaSearchResult in
-            let ((title, description), url) = result
+        let searchResults: [WikipediaSearchResult] = try titleDescriptionAndUrl.map ( { result -> WikipediaSearchResult in
+            let (first, url) = result
+            let (title, description) = first
 
             guard let titleString = title as? String,
                   let descriptionString = description as? String,
@@ -38,7 +47,9 @@ struct WikipediaSearchResult: CustomDebugStringConvertible {
             }
 
             return WikipediaSearchResult(title: titleString, description: descriptionString, URL: URL)
-        }
+        })
+
+        return searchResults
     }
 }
 

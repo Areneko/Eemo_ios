@@ -6,9 +6,10 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-#if os(iOS) || os(tvOS)
+import Foundation
 import UIKit
 
+#if os(iOS) || os(tvOS)
 public typealias ItemMovedEvent = (sourceIndex: IndexPath, destinationIndex: IndexPath)
 public typealias WillDisplayCellEvent = (cell: UITableViewCell, indexPath: IndexPath)
 public typealias DidEndDisplayingCellEvent = (cell: UITableViewCell, indexPath: IndexPath)

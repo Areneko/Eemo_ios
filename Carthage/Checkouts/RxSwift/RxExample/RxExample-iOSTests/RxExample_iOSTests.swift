@@ -1,6 +1,6 @@
 //
 //  RxExample_iOSTests.swift
-//  RxExample
+//  RxExample-iOSTests
 //
 //  Created by Krunoslav Zaher on 12/28/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
@@ -9,7 +9,7 @@
 import XCTest
 
 import RxSwift
-import RxTest
+import RxTests
 import RxCocoa
 
 let resolution: TimeInterval = 0.2 // seconds
@@ -133,6 +133,20 @@ class RxExample_iOSTests
         let wireframe = MockWireframe()
         let validationService = GitHubDefaultValidationService(API: mockAPI)
 
+        let viewModel = GithubSignupViewModel2(
+            input: (
+                username: scheduler.createHotObservable(usernameEvents).asDriver(onErrorJustReturn: ""),
+                password: scheduler.createHotObservable(passwordEvents).asDriver(onErrorJustReturn: ""),
+                repeatedPassword: scheduler.createHotObservable(repeatedPasswordEvents).asDriver(onErrorJustReturn: ""),
+                loginTaps: scheduler.createHotObservable(loginTapEvents).asDriver(onErrorJustReturn: ())
+            ),
+            dependency: (
+                API: mockAPI,
+                validationService: validationService,
+                wireframe: wireframe
+            )
+        )
+
         /**
         This is important because driver will try to ensure that elements are being pumped on main scheduler,
         and that sometimes means that it will get queued using `dispatch_async` to main dispatch queue and
@@ -140,22 +154,7 @@ class RxExample_iOSTests
         
         This method enables using mock schedulers for while testing drivers.
         */
-        SharingScheduler.mock(scheduler: scheduler) {
-            
-            let viewModel = GithubSignupViewModel2(
-                input: (
-                    username: scheduler.createHotObservable(usernameEvents).asDriver(onErrorJustReturn: ""),
-                    password: scheduler.createHotObservable(passwordEvents).asDriver(onErrorJustReturn: ""),
-                    repeatedPassword: scheduler.createHotObservable(repeatedPasswordEvents).asDriver(onErrorJustReturn: ""),
-                    loginTaps: scheduler.createHotObservable(loginTapEvents).asSignal(onErrorJustReturn: ())
-                ),
-                dependency: (
-                    API: mockAPI,
-                    validationService: validationService,
-                    wireframe: wireframe
-                )
-            )
-            
+        driveOnScheduler(scheduler) {
             // run experiment
             let recordedSignupEnabled = scheduler.record(source: viewModel.signupEnabled)
             let recordedValidatedUsername = scheduler.record(source: viewModel.validatedUsername)
@@ -185,8 +184,7 @@ extension RxExample_iOSTests {
                     return "---f"
                 }
             },
-            signup: scheduler.mock(values: booleans, errors: errors) { (args: (String, String)) -> String in
-                let (username, password) = args
+            signup: scheduler.mock(values: booleans, errors: errors) { (username, password) -> String in
                 if username == "secretusername" && password == "secret" {
                     return "--t"
                 }

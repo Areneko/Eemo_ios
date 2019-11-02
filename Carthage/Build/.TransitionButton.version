@@ -1,0 +1,10 @@
+{
+  "commitish" : "0.5.2",
+  "iOS" : [
+    {
+      "name" : "TransitionButton",
+      "hash" : "5ce190bd05488e57692b97555a10e9de5bd8be06d660c189cc6f42d7aa25ac91",
+      "swiftToolchainVersion" : "5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)"
+    }
+  ]
+}

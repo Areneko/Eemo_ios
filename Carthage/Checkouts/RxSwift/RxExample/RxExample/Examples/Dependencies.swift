@@ -1,16 +1,15 @@
 //
 //  Dependencies.swift
-//  RxExample
+//  WikipediaImageSearch
 //
 //  Created by carlos on 13/5/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
+#if !RX_NO_MODULE
 import RxSwift
-
-import class Foundation.URLSession
-import class Foundation.OperationQueue
-import enum Foundation.QualityOfService
+#endif
 
 class Dependencies {
 
@@ -31,7 +30,9 @@ class Dependencies {
         
         let operationQueue = OperationQueue()
         operationQueue.maxConcurrentOperationCount = 2
+        #if !RX_NO_MODULE
         operationQueue.qualityOfService = QualityOfService.userInitiated
+        #endif
         backgroundWorkScheduler = OperationQueueScheduler(operationQueue: operationQueue)
         
         mainScheduler = MainScheduler.instance

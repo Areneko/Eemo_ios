@@ -1,10 +1,12 @@
 //
 //  AsyncLock.swift
-//  RxSwift
+//  Rx
 //
 //  Created by Krunoslav Zaher on 3/21/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
+
+import Foundation
 
 /**
 In case nobody holds this lock, the work will be queued and executed immediately
@@ -16,7 +18,7 @@ and pending work.
 
 That means that enqueued work could possibly be executed later on a different thread.
 */
-final class AsyncLock<I: InvocableType>
+class AsyncLock<I: InvocableType>
     : Disposable
     , Lock
     , SynchronizedDisposeType {
@@ -31,45 +33,45 @@ final class AsyncLock<I: InvocableType>
 
     // lock {
     func lock() {
-        self._lock.lock()
+        _lock.lock()
     }
 
     func unlock() {
-        self._lock.unlock()
+        _lock.unlock()
     }
     // }
 
     private func enqueue(_ action: I) -> I? {
-        self._lock.lock(); defer { self._lock.unlock() } // {
-            if self._hasFaulted {
+        _lock.lock(); defer { _lock.unlock() } // {
+            if _hasFaulted {
                 return nil
             }
 
-            if self._isExecuting {
-                self._queue.enqueue(action)
+            if _isExecuting {
+                _queue.enqueue(action)
                 return nil
             }
 
-            self._isExecuting = true
+            _isExecuting = true
 
             return action
         // }
     }
 
     private func dequeue() -> I? {
-        self._lock.lock(); defer { self._lock.unlock() } // {
-            if !self._queue.isEmpty {
-                return self._queue.dequeue()
+        _lock.lock(); defer { _lock.unlock() } // {
+            if _queue.count > 0 {
+                return _queue.dequeue()
             }
             else {
-                self._isExecuting = false
+                _isExecuting = false
                 return nil
             }
         // }
     }
 
     func invoke(_ action: I) {
-        let firstEnqueuedAction = self.enqueue(action)
+        let firstEnqueuedAction = enqueue(action)
         
         if let firstEnqueuedAction = firstEnqueuedAction {
             firstEnqueuedAction.invoke()
@@ -80,7 +82,7 @@ final class AsyncLock<I: InvocableType>
         }
         
         while true {
-            let nextAction = self.dequeue()
+            let nextAction = dequeue()
 
             if let nextAction = nextAction {
                 nextAction.invoke()
@@ -92,11 +94,11 @@ final class AsyncLock<I: InvocableType>
     }
     
     func dispose() {
-        self.synchronizedDispose()
+        synchronizedDispose()
     }
 
     func _synchronized_dispose() {
-        self._queue = Queue(capacity: 0)
-        self._hasFaulted = true
+        _queue = Queue(capacity: 0)
+        _hasFaulted = true
     }
 }

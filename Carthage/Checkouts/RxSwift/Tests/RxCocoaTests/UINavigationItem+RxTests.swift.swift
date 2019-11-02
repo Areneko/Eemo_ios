@@ -1,17 +1,19 @@
 //
 //  UINavigationItem+RxTests.swift.swift
-//  Tests
+//  Rx
 //
 //  Created by kumapo on 2016/05/11.
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
+
+import Foundation
 
 import RxSwift
 import RxCocoa
 import UIKit
 import XCTest
 
-final class UINavigationItemTests : RxTest {
+class UINavigationItemTests : RxTest {
 }
 
 extension UINavigationItemTests {

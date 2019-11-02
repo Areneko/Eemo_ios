@@ -1,8 +1,8 @@
 /*:
  > # IMPORTANT: To use **Rx.playground**:
  1. Open **Rx.xcworkspace**.
- 1. Build the **RxExample-macOS** scheme (**Product** → **Build**).
- 1. Open **Rx** playground in the **Project navigator** (under RxExample project).
+ 1. Build the **RxSwift-OSX** scheme (**Product** → **Build**).
+ 1. Open **Rx** playground in the **Project navigator**.
  1. Show the Debug Area (**View** → **Debug Area** → **Show Debug Area**).
  ----
  [Previous](@previous) - [Table of Contents](Table_of_Contents)
@@ -11,7 +11,7 @@ import RxSwift
 
 playgroundShouldContinueIndefinitely()
 /*:
-# Connectable Operators
+## Connectable Operators
  Connectable `Observable` sequences resembles ordinary `Observable` sequences, except that they not begin emitting elements when subscribed to, but instead, only when their `connect()` method is called. In this way, you can wait for all intended subscribers to subscribe to a connectable `Observable` sequence before it begins emitting elements.
  > Within each example on this page is a commented-out method. Uncomment that method to run the example, and then comment it out again to stop running the example.
  #
@@ -20,7 +20,7 @@ playgroundShouldContinueIndefinitely()
 func sampleWithoutConnectableOperators() {
     printExampleHeader(#function)
     
-    let interval = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    let interval = Observable<Int>.interval(1, scheduler: MainScheduler.instance)
     
     _ = interval
         .subscribe(onNext: { print("Subscription: 1, Event: \($0)") })
@@ -43,7 +43,7 @@ func sampleWithoutConnectableOperators() {
 func sampleWithPublish() {
     printExampleHeader(#function)
     
-    let intSequence = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    let intSequence = Observable<Int>.interval(1, scheduler: MainScheduler.instance)
         .publish()
     
     _ = intSequence
@@ -75,7 +75,7 @@ func sampleWithPublish() {
 func sampleWithReplayBuffer() {
     printExampleHeader(#function)
     
-    let intSequence = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    let intSequence = Observable<Int>.interval(1, scheduler: MainScheduler.instance)
         .replay(5)
     
     _ = intSequence
@@ -109,7 +109,7 @@ func sampleWithMulticast() {
     _ = subject
         .subscribe(onNext: { print("Subject: \($0)") })
     
-    let intSequence = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    let intSequence = Observable<Int>.interval(1, scheduler: MainScheduler.instance)
         .multicast(subject)
     
     _ = intSequence

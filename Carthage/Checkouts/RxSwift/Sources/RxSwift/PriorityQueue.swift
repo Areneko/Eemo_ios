@@ -1,1 +1,1 @@
-../../RxSwift/Platform/DataStructures/PriorityQueue.swift
+../../RxSwift/DataStructures/PriorityQueue.swift
