@@ -46,7 +46,7 @@ class ResultViewController: UIViewController {
     
     private func configure() {
         emoImageView.image = originalImage
-        emoImageView.emo(emoText: emoText!, frame: view.frame)
+        emoImageView.emo(emoText: emoText!, frame: CGRect(x: 30, y: 30, width: view.frame.width - 60, height: view.frame.height - 60))
         
         shareButton.clipsToBounds = true
         shareButton.layer.cornerRadius = shareButton.frame.height / 2

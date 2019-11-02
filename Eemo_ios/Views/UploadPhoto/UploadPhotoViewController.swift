@@ -45,6 +45,7 @@ class UploadPhotoViewController: UIViewController {
             guard let resultViewController = storyboard.instantiateViewController(identifier: "Result") as? ResultViewController else { return }
             resultViewController.emoText = emoText as? String
             resultViewController.originalImage = self.imageView.image
+            resultViewController.modalPresentationStyle = .fullScreen
             self.present(resultViewController, animated: true, completion: nil)
         }
     }
