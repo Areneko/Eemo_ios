@@ -1,1 +1,1 @@
-../../RxSwift/Observables/SingleAsync.swift
+../../RxSwift/Observables/Implementations/SingleAsync.swift

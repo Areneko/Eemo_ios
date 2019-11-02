@@ -1,20 +1,21 @@
 //
 //  RuntimeStateSnapshot.swift
-//  Tests
+//  RxTests
 //
 //  Created by Krunoslav Zaher on 11/27/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import XCTest
 
-final class ObjectRuntimeState {
+class ObjectRuntimeState {
     let real: ClassRuntimeState
     let actingAs: ClassRuntimeState
 
     init(target: AnyObject) {
-        assert(object_getClass(target)!.isSubclass(of: type(of: target)))
-        real = ClassRuntimeState(object_getClass(target)!)
+        assert(object_getClass(target) == type(of: target))
+        real = ClassRuntimeState(object_getClass(target))
         actingAs = ClassRuntimeState(RXObjCTestRuntime.objCClass(target))
     }
 
@@ -88,9 +89,9 @@ enum ObjectRuntimeChange : Hashable {
 }
 
 extension ObjectRuntimeChange {
-    func hash(into hasher: inout Hasher) {
+    var hashValue: Int {
         // who cares, this is not performance critical
-        hasher.combine(0)
+        return 0
     }
 
     var isClassChange: Bool {
@@ -148,7 +149,7 @@ struct ClassRuntimeState {
 
         var result = [Selector: IMP]()
         for i in 0 ..< count {
-            let method: Method = methods!.advanced(by: Int(i)).pointee
+            let method: Method = methods!.advanced(by: Int(i)).pointee!
             result[method_getName(method)] = method_getImplementation(method)
         }
 

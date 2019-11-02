@@ -6,19 +6,18 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
+#if !RX_NO_MODULE
 import RxSwift
 import RxCocoa
-#if os(iOS)
-import UIKit
-#elseif os(macOS)
-import AppKit
 #endif
 
-// Two way binding operator between control property and relay, that's all it takes.
+import UIKit
+
+// Two way binding operator between control property and variable, that's all it takes {
 
 infix operator <-> : DefaultPrecedence
 
-#if os(iOS)
 func nonMarkedText(_ textInput: UITextInput) -> String? {
     let start = textInput.beginningOfDocument
     let end = textInput.endOfDocument
@@ -40,10 +39,10 @@ func nonMarkedText(_ textInput: UITextInput) -> String? {
     return (textInput.text(in: startRange) ?? "") + (textInput.text(in: endRange) ?? "")
 }
 
-func <-> <Base>(textInput: TextInput<Base>, relay: BehaviorRelay<String>) -> Disposable {
-    let bindToUIDisposable = relay.bind(to: textInput.text)
-
-    let bindToRelay = textInput.text
+func <-> <Base: UITextInput>(textInput: TextInput<Base>, variable: Variable<String>) -> Disposable {
+    let bindToUIDisposable = variable.asObservable()
+        .bindTo(textInput.text)
+    let bindToVariable = textInput.text
         .subscribe(onNext: { [weak base = textInput.base] n in
             guard let base = base else {
                 return
@@ -56,41 +55,44 @@ func <-> <Base>(textInput: TextInput<Base>, relay: BehaviorRelay<String>) -> Dis
              value is not nil. This appears to be an Apple bug. If it's not, and we are doing something wrong, please let us know.
              The can be reproed easily if replace bottom code with 
              
-             if nonMarkedTextValue != relay.value {
-                relay.accept(nonMarkedTextValue ?? "")
+             if nonMarkedTextValue != variable.value {
+                variable.value = nonMarkedTextValue ?? ""
              }
 
              and you hit "Done" button on keyboard.
              */
-            if let nonMarkedTextValue = nonMarkedTextValue, nonMarkedTextValue != relay.value {
-                relay.accept(nonMarkedTextValue)
+            if let nonMarkedTextValue = nonMarkedTextValue, nonMarkedTextValue != variable.value {
+                variable.value = nonMarkedTextValue
             }
         }, onCompleted:  {
             bindToUIDisposable.dispose()
         })
 
-    return Disposables.create(bindToUIDisposable, bindToRelay)
+    return Disposables.create(bindToUIDisposable, bindToVariable)
 }
-#endif
 
-func <-> <T>(property: ControlProperty<T>, relay: BehaviorRelay<T>) -> Disposable {
+func <-> <T>(property: ControlProperty<T>, variable: Variable<T>) -> Disposable {
     if T.self == String.self {
-#if DEBUG && !os(macOS)
-        fatalError("It is ok to delete this message, but this is here to warn that you are maybe trying to bind to some `rx.text` property directly to relay.\n" +
+#if DEBUG
+        fatalError("It is ok to delete this message, but this is here to warn that you are maybe trying to bind to some `rx_text` property directly to variable.\n" +
             "That will usually work ok, but for some languages that use IME, that simplistic method could cause unexpected issues because it will return intermediate results while text is being inputed.\n" +
-            "REMEDY: Just use `textField <-> relay` instead of `textField.rx.text <-> relay`.\n" +
+            "REMEDY: Just use `textField <-> variable` instead of `textField.rx_text <-> variable`.\n" +
             "Find out more here: https://github.com/ReactiveX/RxSwift/issues/649\n"
             )
 #endif
     }
 
-    let bindToUIDisposable = relay.bind(to: property)
-    let bindToRelay = property
+    let bindToUIDisposable = variable.asObservable()
+        .bindTo(property)
+    let bindToVariable = property
         .subscribe(onNext: { n in
-            relay.accept(n)
+            variable.value = n
         }, onCompleted:  {
             bindToUIDisposable.dispose()
         })
 
-    return Disposables.create(bindToUIDisposable, bindToRelay)
+    return Disposables.create(bindToUIDisposable, bindToVariable)
 }
+
+// }
+

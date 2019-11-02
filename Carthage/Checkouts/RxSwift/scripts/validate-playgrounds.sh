@@ -1,11 +1,11 @@
 . scripts/common.sh
 
-PLAYGROUND_CONFIGURATIONS=(Release)
+CONFIGURATIONS=(Release)
 
-# make sure macOS builds
-for scheme in "RxSwift"
+# make sure osx builds
+for scheme in "RxSwift-OSX"
 do
-  for configuration in ${PLAYGROUND_CONFIGURATIONS[@]}
+  for configuration in ${CONFIGURATIONS[@]}
   do
     PAGES_PATH=${BUILD_DIRECTORY}/Build/Products/${configuration}/all-playground-pages.swift
     rx ${scheme} ${configuration} "" build
@@ -13,3 +13,4 @@ do
     swift -v -D NOT_IN_PLAYGROUND -target x86_64-apple-macosx10.10 -F ${BUILD_DIRECTORY}/Build/Products/${configuration} ${PAGES_PATH}   
   done
 done
+

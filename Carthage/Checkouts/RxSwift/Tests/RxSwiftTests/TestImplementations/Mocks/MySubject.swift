@@ -1,15 +1,17 @@
 //
 //  MySubject.swift
-//  Tests
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 4/18/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import RxSwift
 
-final class MySubject<Element> : SubjectType, ObserverType where Element : Hashable {
-    typealias SubjectObserverType = MySubject<Element>
+class MySubject<Element> : SubjectType, ObserverType where Element : Hashable {
+    typealias E = Element
+    typealias SubjectObserverType = MySubject<E>
 
     var _disposeOn: [Element : Disposable] = [:]
     var _observer: AnyObserver<Element>! = nil
@@ -28,7 +30,7 @@ final class MySubject<Element> : SubjectType, ObserverType where Element : Hasha
         _disposeOn[value] = disposable
     }
     
-    func on(_ event: Event<Element>) {
+    func on(_ event: Event<E>) {
         _observer.on(event)
         switch event {
         case .next(let value):
@@ -39,7 +41,7 @@ final class MySubject<Element> : SubjectType, ObserverType where Element : Hasha
         }
     }
     
-    func subscribe<Observer: ObserverType>(_ observer: Observer) -> Disposable where Observer.Element == Element {
+    func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == E {
         _subscribeCount += 1
         _observer = AnyObserver(observer)
         
@@ -49,7 +51,7 @@ final class MySubject<Element> : SubjectType, ObserverType where Element : Hasha
         }
     }
 
-    func asObserver() -> MySubject<Element> {
+    func asObserver() -> MySubject<E> {
         return self
     }
 }

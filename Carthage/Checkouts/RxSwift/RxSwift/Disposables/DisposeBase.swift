@@ -1,22 +1,26 @@
 //
 //  DisposeBase.swift
-//  RxSwift
+//  Rx
 //
 //  Created by Krunoslav Zaher on 4/4/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-/// Base class for all disposables.
+import Foundation
+
+/**
+Base class for all disposables.
+*/
 public class DisposeBase {
     init() {
 #if TRACE_RESOURCES
-    _ = Resources.incrementTotal()
+    let _ = AtomicIncrement(&resourceCount)
 #endif
     }
     
     deinit {
 #if TRACE_RESOURCES
-    _ = Resources.decrementTotal()
+    let _ = AtomicDecrement(&resourceCount)
 #endif
     }
 }

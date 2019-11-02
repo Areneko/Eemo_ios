@@ -1,1 +1,1 @@
-../../RxSwift/Observables/Merge.swift
+../../RxSwift/Observables/Implementations/Merge.swift

@@ -1,10 +1,12 @@
 //
 //  ScheduledItem.swift
-//  RxSwift
+//  Rx
 //
 //  Created by Krunoslav Zaher on 9/2/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
+
+import Foundation
 
 struct ScheduledItem<T>
     : ScheduledItemType
@@ -17,19 +19,19 @@ struct ScheduledItem<T>
     private let _disposable = SingleAssignmentDisposable()
 
     var isDisposed: Bool {
-        return self._disposable.isDisposed
+        return _disposable.isDisposed
     }
     
-    init(action: @escaping Action, state: T) {
-        self._action = action
-        self._state = state
+    init(action: Action, state: T) {
+        _action = action
+        _state = state
     }
     
     func invoke() {
-         self._disposable.setDisposable(self._action(self._state))
+         _disposable.disposable = _action(_state)
     }
     
     func dispose() {
-        self._disposable.dispose()
+        _disposable.dispose()
     }
 }

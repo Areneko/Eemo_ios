@@ -6,9 +6,12 @@
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import CoreLocation
-import RxSwift
-import RxCocoa
+#if !RX_NO_MODULE
+    import RxSwift
+    import RxCocoa
+#endif
 
 class GeolocationService {
     
@@ -37,8 +40,6 @@ class GeolocationService {
                 switch $0 {
                 case .authorizedAlways:
                     return true
-                case .authorizedWhenInUse:
-                    return true    
                 default:
                     return false
                 }

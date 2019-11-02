@@ -1,6 +1,6 @@
 //
 //  UITabBar+RxTests.swift
-//  Tests
+//  Rx
 //
 //  Created by Jesse Farless on 5/13/16.
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
@@ -8,12 +8,14 @@
 
 #if os(iOS) || os(tvOS)
 
+import Foundation
+
 import RxSwift
 import RxCocoa
 import UIKit
 import XCTest
 
-final class UITabBarTests: RxTest {
+class UITabBarTests: RxTest {
     let createSubject: () -> UITabBar = { UITabBar(frame: CGRect(x: 0, y: 0, width: 1, height: 1)) }
 }
 
@@ -62,8 +64,7 @@ extension UITabBarTests {
         var changed: Bool!
 
         _ = subject.rx.willEndCustomizing
-            .subscribe(onNext: { value in
-                let (i, c) = value
+            .subscribe(onNext: { (i, c) in
                 returnedItems = i
                 changed = c
             })
@@ -81,8 +82,7 @@ extension UITabBarTests {
         var changed: Bool!
 
         _ = subject.rx.didEndCustomizing
-            .subscribe(onNext: { value in
-                let (i, c) = value
+            .subscribe(onNext: { (i, c) in
                 returnedItems = i
                 changed = c
             })

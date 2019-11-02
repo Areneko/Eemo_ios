@@ -1,24 +1,31 @@
 //
 //  SchedulerType.swift
-//  RxSwift
+//  Rx
 //
 //  Created by Krunoslav Zaher on 2/8/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import enum Dispatch.DispatchTimeInterval
-import struct Foundation.Date
+import Foundation
 
-// Type that represents time interval in the context of RxSwift.
-public typealias RxTimeInterval = DispatchTimeInterval
+/**
+Type that represents time interval in the context of RxSwift.
+*/
+public typealias RxTimeInterval = TimeInterval
 
-/// Type that represents absolute time in the context of RxSwift.
+/**
+Type that represents absolute time in the context of RxSwift.
+*/
 public typealias RxTime = Date
 
-/// Represents an object that schedules units of work.
+/**
+Represents an object that schedules units of work.
+*/
 public protocol SchedulerType: ImmediateSchedulerType {
 
-    /// - returns: Current time.
+    /**
+    - returns: Current time.
+    */
     var now : RxTime {
         get
     }
@@ -61,7 +68,7 @@ extension SchedulerType {
         return schedule.start()
     }
 
-    func scheduleRecursive<State>(_ state: State, dueTime: RxTimeInterval, action: @escaping (State, AnyRecursiveScheduler<State>) -> Void) -> Disposable {
+    func scheduleRecursive<State>(_ state: State, dueTime: RxTimeInterval, action: @escaping (State, AnyRecursiveScheduler<State>) -> ()) -> Disposable {
         let scheduler = AnyRecursiveScheduler(scheduler: self, action: action)
          
         scheduler.schedule(state, dueTime: dueTime)

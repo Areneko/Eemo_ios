@@ -1,8 +1,8 @@
 /*:
  > # IMPORTANT: To use **Rx.playground**:
  1. Open **Rx.xcworkspace**.
- 1. Build the **RxExample-macOS** scheme (**Product** → **Build**).
- 1. Open **Rx** playground in the **Project navigator** (under RxExample project).
+ 1. Build the **RxSwift-OSX** scheme (**Product** → **Build**).
+ 1. Open **Rx** playground in the **Project navigator**.
  1. Show the Debug Area (**View** → **Debug Area** → **Show Debug Area**).
  ----
  [Previous](@previous) - [Table of Contents](Table_of_Contents)
@@ -21,7 +21,7 @@ example("toArray") {
     Observable.range(start: 1, count: 10)
         .toArray()
         .subscribe { print($0) }
-        .disposed(by: disposeBag)
+        .addDisposableTo(disposeBag)
 }
 /*:
  ----
@@ -35,7 +35,7 @@ example("reduce") {
     Observable.of(10, 100, 1000)
         .reduce(1, accumulator: +)
         .subscribe(onNext: { print($0) })
-        .disposed(by: disposeBag)
+        .addDisposableTo(disposeBag)
 }
 /*:
  ----
@@ -49,17 +49,17 @@ example("concat") {
     let subject1 = BehaviorSubject(value: "🍎")
     let subject2 = BehaviorSubject(value: "🐶")
     
-    let subjectsSubject = BehaviorSubject(value: subject1)
+    let variable = Variable(subject1)
     
-    subjectsSubject.asObservable()
+    variable.asObservable()
         .concat()
         .subscribe { print($0) }
-        .disposed(by: disposeBag)
+        .addDisposableTo(disposeBag)
     
     subject1.onNext("🍐")
     subject1.onNext("🍊")
     
-    subjectsSubject.onNext(subject2)
+    variable.value = subject2
     
     subject2.onNext("I would be ignored")
     subject2.onNext("🐱")

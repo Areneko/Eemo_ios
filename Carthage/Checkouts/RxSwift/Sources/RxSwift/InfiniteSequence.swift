@@ -1,1 +1,1 @@
-../../RxSwift/Platform/DataStructures/InfiniteSequence.swift
+../../RxSwift/DataStructures/InfiniteSequence.swift

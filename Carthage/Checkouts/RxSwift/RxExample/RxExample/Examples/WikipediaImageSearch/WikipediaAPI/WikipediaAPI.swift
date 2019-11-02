@@ -1,13 +1,16 @@
 //
 //  WikipediaAPI.swift
-//  RxExample
+//  Example
 //
 //  Created by Krunoslav Zaher on 3/25/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
+#if !RX_NO_MODULE
 import RxSwift
 import RxCocoa
+#endif
 
 func apiError(_ error: String) -> NSError {
     return NSError(domain: "WikipediaAPI", code: -1, userInfo: [NSLocalizedDescriptionKey: error])
@@ -24,15 +27,15 @@ class DefaultWikipediaAPI: WikipediaAPI {
     
     static let sharedAPI = DefaultWikipediaAPI() // Singleton
     
-    let `$`: Dependencies = Dependencies.sharedDependencies
+    let $: Dependencies = Dependencies.sharedDependencies
 
     let loadingWikipediaData = ActivityIndicator()
 
     private init() {}
 
-    private func JSON(_ url: URL) -> Observable<Any> {
-        return `$`.URLSession
-            .rx.json(url: url)
+    private func JSON(_ url: URL) -> Observable<AnyObject> {
+        return $.URLSession
+            .rx.JSON(url)
             .trackActivity(loadingWikipediaData)
     }
 
@@ -43,7 +46,7 @@ class DefaultWikipediaAPI: WikipediaAPI {
         let url = URL(string: urlContent)!
             
         return JSON(url)
-            .observeOn(`$`.backgroundWorkScheduler)
+            .observeOn($.backgroundWorkScheduler)
             .map { json in
                 guard let json = json as? [AnyObject] else {
                     throw exampleError("Parsing error")
@@ -51,7 +54,7 @@ class DefaultWikipediaAPI: WikipediaAPI {
                 
                 return try WikipediaSearchResult.parseJSON(json)
             }
-            .observeOn(`$`.mainScheduler)
+            .observeOn($.mainScheduler)
     }
     
     // http://en.wikipedia.org/w/api.php?action=parse&page=rx&format=json
@@ -69,6 +72,6 @@ class DefaultWikipediaAPI: WikipediaAPI {
                 
                 return try WikipediaPage.parseJSON(json)
             }
-            .observeOn(`$`.mainScheduler)
+            .observeOn($.mainScheduler)
     }
 }

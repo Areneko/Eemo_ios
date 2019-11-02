@@ -10,105 +10,82 @@
 import Foundation
 
 /**
- This script packages normal Rx* structure into `Sources` directory.
+This script packages normal Rx* structure into `Sources` directory.
 
- * creates and updates links to normal project structure
- * builds unit tests `main.swift`
+    * creates and updates links to normal project structure
+    * builds unit tests `main.swift`
 
- Unfortunately, Swift support for Linux, libdispatch and package manager are still quite unstable,
- so certain class of unit tests is excluded for now.
+Unfortunately, Swift support for Linux, libdispatch and package manager are still quite unstable,
+so certain class of unit tests is excluded for now.
 
- */
+*/
 
 // It is kind of ironic that we need to additionally package for package manager :/
 
-let fileManager = FileManager.default
+let fileManager = NSFileManager.defaultManager()
 
 let allowedExtensions = [
     ".swift",
     ".h",
     ".m",
-    ".c",
 ]
 // Those tests are dependent on conditional compilation logic and it's hard to handle them automatically
 // They usually test some internal state, so it should be ok to exclude them for now.
-let excludedTests: [String] = [
+let excludedTests = [
     "testConcat_TailRecursionCollection",
     "testConcat_TailRecursionSequence",
     "testMapCompose_OptimizationIsPerformed",
     "testMapCompose_OptimizationIsNotPerformed",
     "testObserveOn_EnsureCorrectImplementationIsChosen",
     "testObserveOnDispatchQueue_EnsureCorrectImplementationIsChosen",
-    "testResourceLeaksDetectionIsTurnedOn",
-    "testAnonymousObservable_disposeReferenceDoesntRetainObservable",
+    "testWindowWithTimeOrCount_BasicPeriod",
     "testObserveOnDispatchQueue_DispatchQueueSchedulerIsSerial",
-    "ReleasesResourcesOn",
-    "testShareReplayLatestWhileConnectedDisposableDoesntRetainAnything",
-    "testSingle_DecrementCountsFirst",
-    "testSinglePredicate_DecrementCountsFirst",
-    "testLockUnlockCountsResources",
-    "testDisposeWithEnqueuedElement",
-    "testDisposeWithEnqueuedError",
-    "testDisposeWithEnqueuedCompleted",
+    "testResourceLeaksDetectionIsTurnedOn"
 ]
 
-func excludeTest(_ name: String) -> Bool {
-    for exclusion in excludedTests {
-        if name.contains(exclusion) {
-            return true
-        }
-    }
-
-    return false
-}
-
-let excludedTestClasses: [String] = [
-    /*"ObservableConcurrentSchedulerConcurrencyTest",
+let excludedTestClasses = [
+    "ObservableConcurrentSchedulerConcurrencyTest",
     "SubjectConcurrencyTest",
     "VirtualSchedulerTest",
-    "HistoricalSchedulerTest"*/
-    "BagTest"
+    "HistoricalSchedulerTest"
 ]
 
-let throwingWordsInTests: [String] = [
-    /*"error",
+let throwingWordsInTests = [
+    "error",
     "fail",
     "throw",
     "retrycount",
-    "retrywhen",*/
+    "retrywhen",
 ]
 
-func isExtensionAllowed(_ path: String) -> Bool {
+func isExtensionAllowed(path: String) -> Bool {
     return (allowedExtensions.map { path.hasSuffix($0) }).reduce(false) { $0 || $1 }
 }
 
-func checkExtension(_ path: String) throws {
+func checkExtension(path: String) throws {
     if !isExtensionAllowed(path) {
         throw NSError(domain: "Security", code: -1, userInfo: ["path" : path])
     }
 }
 
-func packageRelativePath(_ paths: [String], targetDirName: String, excluded: [String] = []) throws {
+func packageRelativePath(paths: [String], targetDirName: String, excluded: [String] = []) throws {
     let targetPath = "Sources/\(targetDirName)"
 
-    print("Checking " + targetPath)
+    print(targetPath)
 
-    for file in try fileManager.contentsOfDirectory(atPath: targetPath).sorted { $0 < $1 }  {
-        if file != "include" && file != ".DS_Store" {
-            print("Checking extension \(file)")
-            try checkExtension(file)
+    for file in try fileManager.contentsOfDirectoryAtPath(targetPath)  {
+        try checkExtension(file)
 
-            print("Cleaning \(file)")
-            try fileManager.removeItem(atPath: "\(targetPath)/\(file)")
-        }
+        print("Cleaning \(file)")
+        try fileManager.removeItemAtPath("\(targetPath)/\(file)")
     }
 
     for sourcePath in paths {
         var isDirectory: ObjCBool = false
-        fileManager.fileExists(atPath: sourcePath, isDirectory: &isDirectory)
+        fileManager.fileExistsAtPath(sourcePath, isDirectory: &isDirectory)
 
-        let files: [String] = isDirectory.boolValue ? fileManager.subpaths(atPath: sourcePath)!
-            : [sourcePath]
+        let files = isDirectory ? try fileManager.subpathsOfDirectoryAtPath(sourcePath)
+                : [sourcePath]
 
         for file in files {
             if !isExtensionAllowed(file) {
@@ -121,27 +98,20 @@ func packageRelativePath(_ paths: [String], targetDirName: String, excluded: [St
                 continue
             }
 
-            let fileRelativePath = isDirectory.boolValue ? "\(sourcePath)/\(file)" : file
+            let fileRelativePath = isDirectory ? "\(sourcePath)/\(file)" : file
 
             let destinationURL = NSURL(string: "../../\(fileRelativePath)")!
 
             let fileName = (file as NSString).lastPathComponent
             let atURL = NSURL(string: "file:///\(fileManager.currentDirectoryPath)/\(targetPath)/\(fileName)")!
 
-            if fileName.hasSuffix(".h") {
-                let sourcePath = NSURL(string: "file:///" + fileManager.currentDirectoryPath + "/" + sourcePath + "/" + file)!
-                //throw NSError(domain: sourcePath.description, code: -1, userInfo: nil)
-                try fileManager.copyItem(at: sourcePath as URL, to: atURL as URL)
-            }
-            else {
-                print("Linking \(fileName) [\(atURL)] -> \(destinationURL)")
-                try fileManager.createSymbolicLink(at: atURL as URL, withDestinationURL: destinationURL as URL)
-            }
+            print("Linking \(fileName) [\(atURL)] -> \(destinationURL)")
+            try fileManager.createSymbolicLinkAtURL(atURL, withDestinationURL: destinationURL)
         }
     }
 }
 
-func buildAllTestsTarget(_ testsPath: String) throws {
+func buildAllTestsTarget(testsPath: String) throws {
     let splitClasses = "(?:class|extension)\\s+(\\w+)"
     let testMethods = "\\s+func\\s+(test\\w+)"
 
@@ -150,26 +120,25 @@ func buildAllTestsTarget(_ testsPath: String) throws {
 
     var reducedMethods: [String: [String]] = [:]
 
-    for file in try fileManager.contentsOfDirectory(atPath: testsPath).sorted { $0 < $1 } {
+    for file in try fileManager.contentsOfDirectoryAtPath(testsPath) {
         if !file.hasSuffix(".swift") || file == "main.swift" {
             continue
         }
 
         let fileRelativePath = "\(testsPath)/\(file)"
-        let testContent = try String(contentsOfFile: fileRelativePath, encoding: String.Encoding.utf8)
+        let testContent = try NSString(contentsOfFile: fileRelativePath, encoding: NSUTF8StringEncoding)
 
         print(fileRelativePath)
 
-        let classMatches = splitClassesRegularExpression.matches(in: testContent as String, options: [], range: NSRange(location: 0, length: testContent.count))
+        let classMatches = splitClassesRegularExpression.matchesInString(testContent as String, options: [], range: NSRange(location: 0, length: testContent.length))
         let matchIndexes = classMatches
             .map { $0.range.location }
+        let classNames = classMatches.map { testContent.substringWithRange($0.rangeAtIndex(1)) as NSString }
 
-        let classNames = classMatches.map { (testContent as NSString).substring(with: $0.range(at: 1)) as NSString }
-
-        let ranges = zip([0] + matchIndexes, matchIndexes + [testContent.count]).map { NSRange(location: $0, length: $1 - $0) }
+        let ranges = zip([0] + matchIndexes, matchIndexes + [testContent.length]).map { NSRange(location: $0, length: $1 - $0) }
         let classRanges = ranges[1 ..< ranges.count]
 
-        let classes = zip(classNames, classRanges.map { (testContent as NSString).substring(with: $0) as NSString })
+        let classes = zip(classNames, classRanges.map { testContent.substringWithRange($0) as NSString })
 
         for (name, classCode) in classes {
             if excludedTestClasses.contains(name as String) {
@@ -177,13 +146,11 @@ func buildAllTestsTarget(_ testsPath: String) throws {
                 continue
             }
 
-            let methodMatches = testMethodsExpression.matches(in: classCode as String, options: [], range: NSRange(location: 0, length: classCode.length))
-
-            let methodNameRanges = methodMatches.map { $0.range(at: 1) }
-
+            let methodMatches = testMethodsExpression.matchesInString(classCode as String, options: [], range: NSRange(location: 0, length: classCode.length))
+            let methodNameRanges = methodMatches.map { $0.rangeAtIndex(1) }
             let testMethodNames = methodNameRanges
-                .map { classCode.substring(with: $0) }
-                .filter { !excludeTest($0) }
+                .map { classCode.substringWithRange($0) }
+                .filter { !excludedTests.contains($0) }
 
             if testMethodNames.count == 0 {
                 continue
@@ -196,133 +163,56 @@ func buildAllTestsTarget(_ testsPath: String) throws {
 
     var mainContent = [String]()
 
-    mainContent.append("// this file is autogenerated using `./scripts/package-spm.swift`")
+    mainContent.append("// this file is autogenerated using `./scripts/package-swift-manager.swift`")
     mainContent.append("import XCTest")
     mainContent.append("import RxSwift")
     mainContent.append("")
-    mainContent.append("protocol RxTestCase {")
-    mainContent.append("#if os(macOS)")
-    mainContent.append("    init()")
-    mainContent.append("    static var allTests: [(String, (Self) -> () -> Void)] { get }")
-    mainContent.append("#endif")
-    mainContent.append("    func setUp()")
-    mainContent.append("    func tearDown()")
-    mainContent.append("}")
-    mainContent.append("")
 
-    for name in reducedMethods.keys.sorted() {
-        let methods = reducedMethods[name]!
+    for (name, methods) in reducedMethods {
 
         mainContent.append("")
-        mainContent.append("final class \(name)_ : \(name), RxTestCase {")
-        mainContent.append("    #if os(macOS)")
-        mainContent.append("    required override init() {")
-        mainContent.append("        super.init()")
-        mainContent.append("    }")
-        mainContent.append("    #endif")
-        mainContent.append("")
-        mainContent.append("    static var allTests: [(String, (\(name)_) -> () -> Void)] { return [")
+        mainContent.append("let _\(name) = \(name)()")
+        mainContent.append("_\(name).allTests = [")
         for method in methods {
-            // throwing error on Linux, you will crash
-            let isTestCaseHandlingError = throwingWordsInTests.map { (method as String).lowercased().contains($0) }.reduce(false) { $0 || $1 }
-            mainContent.append("    \(isTestCaseHandlingError ? "//" : "")(\"\(method)\", \(name).\(method)),")
+        // throwing error on Linux, you will crash
+        let isTestCaseHandlingError = throwingWordsInTests.map { (method as String).lowercaseString.containsString($0) }.reduce(false) { $0 || $1 }
+        mainContent.append("    \(isTestCaseHandlingError ? "//" : "")(\"\(method)\", { _\(name).setUp(); _\(name).\(method)(); _\(name).tearDown(); }),")
         }
-        mainContent.append("    ] }")
-        mainContent.append("}")
+        mainContent.append("]")
+        mainContent.append("")
     }
 
-    mainContent.append("#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)")
-    mainContent.append("")
-    mainContent.append("func testCase<T: RxTestCase>(_ tests: [(String, (T) -> () -> Void)]) -> () -> Void {")
-    mainContent.append("    return {")
-    mainContent.append("        for testCase in tests {")
-    mainContent.append("            print(\"Test \\(testCase)\")")
-    mainContent.append("            for test in T.allTests {")
-    mainContent.append("                let testInstance = T()")
-    mainContent.append("                testInstance.setUp()")
-    mainContent.append("                print(\"   testing \\(test.0)\")")
-    mainContent.append("                test.1(testInstance)()")
-    mainContent.append("                testInstance.tearDown()")
-    mainContent.append("            }")
-    mainContent.append("        }")
-    mainContent.append("    }")
-    mainContent.append("}")
-    mainContent.append("")
-    mainContent.append("func XCTMain(_ tests: [() -> Void]) {")
-    mainContent.append("    for testCase in tests {")
-    mainContent.append("        testCase()")
-    mainContent.append("    }")
-    mainContent.append("}")
-    mainContent.append("")
-    mainContent.append("#endif")
-    mainContent.append("")
+    mainContent.append("CurrentThreadScheduler.instance.schedule(()) { _ in")
     mainContent.append("    XCTMain([")
-    for testCase in reducedMethods.keys.sorted() {
-        mainContent.append("        testCase(\(testCase)_.allTests),")
+    for testCase in reducedMethods.keys {
+    mainContent.append("        _\(testCase),")
     }
     mainContent.append("    ])")
-    mainContent.append("//}")
+    mainContent.append("    return NopDisposable.instance")
+    mainContent.append("}")
     mainContent.append("")
 
-    let serializedMainContent = mainContent.joined(separator: "\n")
-    try serializedMainContent.write(toFile: "\(testsPath)/main.swift", atomically: true, encoding: String.Encoding.utf8)
+    let serializedMainContent = mainContent.joinWithSeparator("\n")
+    try serializedMainContent.writeToFile("\(testsPath)/main.swift", atomically: true, encoding: NSUTF8StringEncoding)
 }
 
+
 try packageRelativePath(["RxSwift"], targetDirName: "RxSwift")
-try packageRelativePath(["RxRelay"], targetDirName: "RxRelay")
-try packageRelativePath([
-    "RxCocoa/RxCocoa.swift",
-    "RxCocoa/Deprecated.swift",
-    "RxCocoa/Traits",
-    "RxCocoa/Common",
-    "RxCocoa/Foundation",
-    "RxCocoa/iOS",
-    "RxCocoa/macOS",
-    "RxCocoa/Platform",
-    ], targetDirName: "RxCocoa")
-
-try packageRelativePath([
-    "RxCocoa/Runtime/include",
-    ], targetDirName: "RxCocoaRuntime/include")
-
-try packageRelativePath([
-    "RxCocoa/Runtime/_RX.m",
-    "RxCocoa/Runtime/_RXDelegateProxy.m",
-    "RxCocoa/Runtime/_RXKVOObserver.m",
-    "RxCocoa/Runtime/_RXObjCRuntime.m",
-    ], targetDirName: "RxCocoaRuntime")
-
+//try packageRelativePath(["RxCocoa/Common", "RxCocoa/OSX", "RxCocoa/RxCocoa.h"], targetDirName: "RxCocoa")
+try packageRelativePath(["RxCocoa/RxCocoa.h"], targetDirName: "RxCocoa")
 try packageRelativePath(["RxBlocking"], targetDirName: "RxBlocking")
-try packageRelativePath(["RxTest"], targetDirName: "RxTest")
+try packageRelativePath(["RxTests"], targetDirName: "RxTests")
 // It doesn't work under `Tests` subpath ¯\_(ツ)_/¯
 try packageRelativePath([
-        "Tests/RxSwiftTests",
-        "Tests/RxRelayTests",
-        "Tests/RxBlockingTests",
         "RxSwift/RxMutableBox.swift",
         "Tests/RxTest.swift",
-        "Tests/Recorded+Timeless.swift",
-        "Tests/TestErrors.swift",
-        "Tests/XCTest+AllTests.swift",
-        "Platform",
-        "Tests/RxCocoaTests/Driver+Test.swift",
-        "Tests/RxCocoaTests/Signal+Test.swift",
-        "Tests/RxCocoaTests/SharedSequence+Extensions.swift",
-        "Tests/RxCocoaTests/SharedSequence+Test.swift",
-        "Tests/RxCocoaTests/SharedSequence+OperatorTest.swift",
-        "Tests/RxCocoaTests/NotificationCenterTests.swift",
+        "Tests/Tests",
+        "Tests/RxSwiftTests"
     ],
-    targetDirName: "AllTestz",
+    targetDirName: "AllTests",
     excluded: [
         "Tests/VirtualSchedulerTest.swift",
-        "Tests/HistoricalSchedulerTest.swift",
-        // @testable import doesn't work well in Linux :/
-        "QueueTests.swift",
-        // @testable import doesn't work well in Linux :/
-        "SubjectConcurrencyTest.swift",
-        // @testable import doesn't work well in Linux :/
-        "BagTest.swift"
+        "Tests/HistoricalSchedulerTest.swift"
     ])
 
-try buildAllTestsTarget("Sources/AllTestz")
-
+try buildAllTestsTarget("Sources/AllTests")

@@ -6,9 +6,12 @@
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import UIKit
-import RxSwift
-import RxCocoa
+#if !RX_NO_MODULE
+    import RxSwift
+    import RxCocoa
+#endif
 
 func dismissViewController(_ viewController: UIViewController, animated: Bool) {
     if viewController.isBeingDismissed || viewController.isBeingPresented {
@@ -25,12 +28,12 @@ func dismissViewController(_ viewController: UIViewController, animated: Bool) {
 }
 
 extension Reactive where Base: UIImagePickerController {
-    static func createWithParent(_ parent: UIViewController?, animated: Bool = true, configureImagePicker: @escaping (UIImagePickerController) throws -> Void = { x in }) -> Observable<UIImagePickerController> {
+    static func createWithParent(_ parent: UIViewController?, animated: Bool = true, configureImagePicker: @escaping (UIImagePickerController) throws -> () = { x in }) -> Observable<UIImagePickerController> {
         return Observable.create { [weak parent] observer in
             let imagePicker = UIImagePickerController()
             let dismissDisposable = imagePicker.rx
                 .didCancel
-                .subscribe(onNext: { [weak imagePicker] _ in
+                .subscribe(onNext: { [weak imagePicker] in
                     guard let imagePicker = imagePicker else {
                         return
                     }

@@ -1,6 +1,6 @@
 //
 //  RxPickerViewDelegateProxy.swift
-//  RxCocoa
+//  Rx
 //
 //  Created by Segii Shulga on 5/12/16.
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
@@ -8,30 +8,31 @@
 
 #if os(iOS)
 
+    import Foundation
+#if !RX_NO_MODULE
     import RxSwift
-    import UIKit
+#endif
+import UIKit
 
-    extension UIPickerView: HasDelegate {
-        public typealias Delegate = UIPickerViewDelegate
+public class RxPickerViewDelegateProxy
+    : DelegateProxy
+    , DelegateProxyType
+    , UIPickerViewDelegate {
+    
+    /**
+     For more information take a look at `DelegateProxyType`.
+     */
+    public class func setCurrentDelegate(_ delegate: AnyObject?, toObject object: AnyObject) {
+        let pickerView: UIPickerView = castOrFatalError(object)
+        pickerView.delegate = castOptionalOrFatalError(delegate)
     }
-
-    open class RxPickerViewDelegateProxy
-        : DelegateProxy<UIPickerView, UIPickerViewDelegate>
-        , DelegateProxyType 
-        , UIPickerViewDelegate {
-
-        /// Typed parent object.
-        public weak private(set) var pickerView: UIPickerView?
-
-        /// - parameter pickerView: Parent object for delegate proxy.
-        public init(pickerView: ParentObject) {
-            self.pickerView = pickerView
-            super.init(parentObject: pickerView, delegateProxy: RxPickerViewDelegateProxy.self)
-        }
-
-        // Register known implementationss
-        public static func registerKnownImplementations() {
-            self.register { RxPickerViewDelegateProxy(pickerView: $0) }
-        }
+    
+    /**
+     For more information take a look at `DelegateProxyType`.
+     */
+    public class func currentDelegateFor(_ object: AnyObject) -> AnyObject? {
+        let pickerView: UIPickerView = castOrFatalError(object)
+        return pickerView.delegate
     }
+}
 #endif

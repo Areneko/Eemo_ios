@@ -9,6 +9,7 @@ e.g.
 ```swift
 extension ObservableType where E: MaybeCool {
 
+    @warn_unused_result(message="http://git.io/rxs.uo")
     public func coolElements()
         -> Observable<E> {
           return filter { e -> Bool in
@@ -25,19 +26,19 @@ extension ObservableType where E: MaybeCool {
   **Avoid nesting subscribe calls at all cost. This is a code smell.**
 
   ```swift
-  textField.rx.text.subscribe(onNext: { text in
-      performURLRequest(text).subscribe(onNext: { result in
+  textField.rx_text.subscribeNext { text in
+      performURLRequest(text).subscribeNext { result in
           ...
-      })
-      .disposed(by: disposeBag)
-  })
-  .disposed(by: disposeBag)
+      }
+      .addDisposableTo(disposeBag)
+  }
+  .addDisposableTo(disposeBag)
   ```
 
   **Preferred way of chaining disposables by using operators.**
 
   ```swift
-  textField.rx.text
+  textField.rx_text
       .flatMapLatest { text in
           // Assuming this doesn't fail and returns result on main scheduler,
           // otherwise `catchError` and `observeOn(MainScheduler.instance)` can be used to
@@ -45,5 +46,5 @@ extension ObservableType where E: MaybeCool {
           return performURLRequest(text)
       }
       ...
-      .disposed(by: disposeBag) // only one top most disposable
+      .addDisposableTo(disposeBag) // only one top most disposable
   ```

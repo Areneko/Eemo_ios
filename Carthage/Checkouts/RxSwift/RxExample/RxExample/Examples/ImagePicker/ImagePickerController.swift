@@ -6,9 +6,12 @@
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import UIKit
-import RxSwift
-import RxCocoa
+#if !RX_NO_MODULE
+    import RxSwift
+    import RxCocoa
+#endif
 
 class ImagePickerController: ViewController {
 
@@ -25,7 +28,7 @@ class ImagePickerController: ViewController {
 
         cameraButton.rx.tap
             .flatMapLatest { [weak self] _ in
-                return UIImagePickerController.rx.createWithParent(self) { picker in
+                return Reactive<UIImagePickerController>.createWithParent(self) { picker in
                     picker.sourceType = .camera
                     picker.allowsEditing = false
                 }
@@ -33,14 +36,14 @@ class ImagePickerController: ViewController {
                 .take(1)
             }
             .map { info in
-                return info[UIImagePickerController.InfoKey.originalImage.rawValue] as? UIImage
+                return info[UIImagePickerControllerOriginalImage] as? UIImage
             }
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
+            .bindTo(imageView.rx.image)
+            .addDisposableTo(disposeBag)
 
         galleryButton.rx.tap
             .flatMapLatest { [weak self] _ in
-                return UIImagePickerController.rx.createWithParent(self) { picker in
+                return Reactive<UIImagePickerController>.createWithParent(self) { picker in
                     picker.sourceType = .photoLibrary
                     picker.allowsEditing = false
                 }
@@ -50,14 +53,14 @@ class ImagePickerController: ViewController {
                 .take(1)
             }
             .map { info in
-                return info[UIImagePickerController.InfoKey.originalImage.rawValue] as? UIImage
+                return info[UIImagePickerControllerOriginalImage] as? UIImage
             }
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
+            .bindTo(imageView.rx.image)
+            .addDisposableTo(disposeBag)
 
         cropButton.rx.tap
             .flatMapLatest { [weak self] _ in
-                return UIImagePickerController.rx.createWithParent(self) { picker in
+                return Reactive<UIImagePickerController>.createWithParent(self) { picker in
                     picker.sourceType = .photoLibrary
                     picker.allowsEditing = true
                 }
@@ -65,10 +68,10 @@ class ImagePickerController: ViewController {
                 .take(1)
             }
             .map { info in
-                return info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
+                return info[UIImagePickerControllerEditedImage] as? UIImage
             }
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
+            .bindTo(imageView.rx.image)
+            .addDisposableTo(disposeBag)
     }
     
 }

@@ -1,62 +1,57 @@
 //
 //  PrimitiveHotObservable.swift
-//  Tests
+//  RxTests
 //
 //  Created by Krunoslav Zaher on 6/4/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 import RxSwift
-import RxTest
-import Dispatch
+import RxTests
 
 let SubscribedToHotObservable = Subscription(0)
 let UnsunscribedFromHotObservable = Subscription(0, 0)
 
-class PrimitiveHotObservable<Element> : ObservableType {
-    typealias Events = Recorded<Element>
-    typealias Observer = AnyObserver<Element>
-    
-    var _subscriptions = [Subscription]()
-    let _observers = PublishSubject<Element>()
-    
-    public var subscriptions: [Subscription] {
-        lock.lock()
-        defer { lock.unlock() }
-        return _subscriptions
-    }
+class PrimitiveHotObservable<ElementType> : ObservableType {
+    typealias E = ElementType
 
-    let lock = RecursiveLock()
+    typealias Events = Recorded<E>
+    typealias Observer = AnyObserver<E>
+    
+    var subscriptions: [Subscription]
+    var observers: Bag<AnyObserver<E>>
+
+    let lock = NSRecursiveLock()
     
     init() {
-    }
-
-    func on(_ event: Event<Element>) {
-        lock.lock()
-        defer { lock.unlock() }
-        _observers.on(event)
+        self.subscriptions = []
+        self.observers = Bag()
     }
     
-    func subscribe<Observer: ObserverType>(_ observer: Observer) -> Disposable where Observer.Element == Element {
+    func on(_ event: Event<E>) {
+        lock.lock()
+        defer { lock.unlock() }
+        observers.on(event)
+    }
+    
+    func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == E {
         lock.lock()
         defer { lock.unlock() }
 
-        let removeObserver = _observers.subscribe(observer)
-        _subscriptions.append(SubscribedToHotObservable)
-
-        let i = self._subscriptions.count - 1
-
-        var count = 0
+        let key = observers.insert(AnyObserver(observer))
+        subscriptions.append(SubscribedToHotObservable)
+        
+        let i = self.subscriptions.count - 1
         
         return Disposables.create {
             self.lock.lock()
             defer { self.lock.unlock() }
-
-            removeObserver.dispose()
-            count += 1
-            assert(count == 1)
             
-            self._subscriptions[i] = UnsunscribedFromHotObservable
+            let removed = self.observers.removeKey(key)
+            assert(removed != nil)
+            
+            self.subscriptions[i] = UnsunscribedFromHotObservable
         }
     }
 }

@@ -1,43 +1,45 @@
 //
 //  RunLoopLock.swift
-//  RxBlocking
+//  Rx
 //
 //  Created by Krunoslav Zaher on 11/5/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import CoreFoundation
 import Foundation
-import RxSwift
-
-#if os(Linux)
-    import Foundation
-    #if compiler(>=5.0) 
-    let runLoopMode: RunLoop.Mode = .default
-    #else
-    let runLoopMode: RunLoopMode = .defaultRunLoopMode
-    #endif
-
-    let runLoopModeRaw: CFString = unsafeBitCast(runLoopMode.rawValue._bridgeToObjectiveC(), to: CFString.self)
-#else
-    let runLoopMode: CFRunLoopMode = CFRunLoopMode.defaultMode
-    let runLoopModeRaw = runLoopMode.rawValue
+#if !RX_NO_MODULE
+    import RxSwift
 #endif
 
-final class RunLoopLock {
-    let _currentRunLoop: CFRunLoop
+typealias AtomicInt = Int32
 
-    let _calledRun = AtomicInt(0)
-    let _calledStop = AtomicInt(0)
-    var _timeout: TimeInterval?
+#if os(Linux)
+  func AtomicIncrement(increment: UnsafeMutablePointer<AtomicInt>) -> AtomicInt {
+      increment.memory = increment.memory + 1
+      return increment.memory
+  }
 
-    init(timeout: TimeInterval?) {
-        self._timeout = timeout
-        self._currentRunLoop = CFRunLoopGetCurrent()
+  func AtomicDecrement(increment: UnsafeMutablePointer<AtomicInt>) -> AtomicInt {
+      increment.memory = increment.memory - 1
+      return increment.memory
+  }
+#else
+  let AtomicIncrement = OSAtomicIncrement32
+  let AtomicDecrement = OSAtomicDecrement32
+#endif
+
+class RunLoopLock {
+    let currentRunLoop: CFRunLoop
+
+    var calledRun: AtomicInt = 0
+    var calledStop: AtomicInt = 0
+
+    init() {
+        currentRunLoop = CFRunLoopGetCurrent()
     }
 
-    func dispatch(_ action: @escaping () -> Void) {
-        CFRunLoopPerformBlock(self._currentRunLoop, runLoopModeRaw) {
+    func dispatch(_ action: @escaping () -> ()) {
+        CFRunLoopPerformBlock(currentRunLoop, CFRunLoopMode.defaultMode.rawValue) {
             if CurrentThreadScheduler.isScheduleRequired {
                 _ = CurrentThreadScheduler.instance.schedule(()) { _ in
                     action()
@@ -48,54 +50,23 @@ final class RunLoopLock {
                 action()
             }
         }
-        CFRunLoopWakeUp(self._currentRunLoop)
+        CFRunLoopWakeUp(currentRunLoop)
     }
 
     func stop() {
-        if decrement(self._calledStop) > 1 {
+        if AtomicIncrement(&calledStop) != 1 {
             return
         }
-        CFRunLoopPerformBlock(self._currentRunLoop, runLoopModeRaw) {
-            CFRunLoopStop(self._currentRunLoop)
+        CFRunLoopPerformBlock(currentRunLoop, CFRunLoopMode.defaultMode.rawValue) {
+            CFRunLoopStop(self.currentRunLoop)
         }
-        CFRunLoopWakeUp(self._currentRunLoop)
+        CFRunLoopWakeUp(currentRunLoop)
     }
 
-    func run() throws {
-        if increment(self._calledRun) != 0 {
+    func run() {
+        if AtomicIncrement(&calledRun) != 1 {
             fatalError("Run can be only called once")
         }
-        if let timeout = self._timeout {
-            #if os(Linux)
-                switch Int(CFRunLoopRunInMode(runLoopModeRaw, timeout, false)) {
-                case kCFRunLoopRunFinished:
-                    return
-                case kCFRunLoopRunHandledSource:
-                    return
-                case kCFRunLoopRunStopped:
-                    return
-                case kCFRunLoopRunTimedOut:
-                    throw RxError.timeout
-                default:
-                    fatalError("This failed because `CFRunLoopRunResult` wasn't bridged to Swift.")
-                }
-            #else
-                switch CFRunLoopRunInMode(runLoopMode, timeout, false) {
-                case .finished:
-                    return
-                case .handledSource:
-                    return
-                case .stopped:
-                    return
-                case .timedOut:
-                    throw RxError.timeout
-                default:
-                    return
-                }
-            #endif
-        }
-        else {
-            CFRunLoopRun()
-        }
+        CFRunLoopRun()
     }
 }

@@ -6,19 +6,20 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+#if !RX_NO_MODULE
 import RxSwift
-
-import class Dispatch.DispatchQueue
+#endif
+import Foundation
 
 public enum ReachabilityStatus {
-    case reachable(viaWiFi: Bool)
+    case Reachable(viaWiFi: Bool)
     case unreachable
 }
 
 extension ReachabilityStatus {
     var reachable: Bool {
         switch self {
-        case .reachable:
+        case .Reachable:
             return true
         case .unreachable:
             return false
@@ -28,10 +29,6 @@ extension ReachabilityStatus {
 
 protocol ReachabilityService {
     var reachability: Observable<ReachabilityStatus> { get }
-}
-
-enum ReachabilityServiceError: Error {
-    case failedToCreate
 }
 
 class DefaultReachabilityService
@@ -46,7 +43,7 @@ class DefaultReachabilityService
     let _reachability: Reachability
 
     init() throws {
-        guard let reachabilityRef = Reachability() else { throw ReachabilityServiceError.failedToCreate }
+        let reachabilityRef = try Reachability.reachabilityForInternetConnection()
         let reachabilitySubject = BehaviorSubject<ReachabilityStatus>(value: .unreachable)
 
         // so main thread isn't blocked when reachability via WiFi is checked
@@ -54,7 +51,7 @@ class DefaultReachabilityService
 
         reachabilityRef.whenReachable = { reachability in
             backgroundQueue.async {
-                reachabilitySubject.on(.next(.reachable(viaWiFi: reachabilityRef.isReachableViaWiFi)))
+                reachabilitySubject.on(.next(.Reachable(viaWiFi: reachabilityRef.isReachableViaWiFi())))
             }
         }
 
@@ -75,15 +72,12 @@ class DefaultReachabilityService
 }
 
 extension ObservableConvertibleType {
-    func retryOnBecomesReachable(_ valueOnFailure:Element, reachabilityService: ReachabilityService) -> Observable<Element> {
+    func retryOnBecomesReachable(_ valueOnFailure:E, reachabilityService: ReachabilityService) -> Observable<E> {
         return self.asObservable()
-            .catchError { (e) -> Observable<Element> in
+            .catchError { (e) -> Observable<E> in
                 reachabilityService.reachability
-                    .skip(1)
                     .filter { $0.reachable }
-                    .flatMap { _ in
-                        Observable.error(e)
-                    }
+                    .flatMap { _ in Observable.error(e) }
                     .startWith(valueOnFailure)
             }
             .retry()

@@ -1,12 +1,16 @@
 //
 //  SerialDisposable.swift
-//  RxSwift
+//  Rx
 //
 //  Created by Krunoslav Zaher on 3/12/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-/// Represents a disposable resource whose underlying disposable resource can be replaced by another disposable resource, causing automatic disposal of the previous underlying disposable resource.
+import Foundation
+
+/**
+Represents a disposable resource whose underlying disposable resource can be replaced by another disposable resource, causing automatic disposal of the previous underlying disposable resource.
+*/
 public final class SerialDisposable : DisposeBase, Cancelable {
     private var _lock = SpinLock()
     
@@ -14,12 +18,16 @@ public final class SerialDisposable : DisposeBase, Cancelable {
     private var _current = nil as Disposable?
     private var _isDisposed = false
     
-    /// - returns: Was resource disposed.
+    /**
+    - returns: Was resource disposed.
+    */
     public var isDisposed: Bool {
-        return self._isDisposed
+        return _isDisposed
     }
     
-    /// Initializes a new instance of the `SerialDisposable`.
+    /**
+    Initializes a new instance of the `SerialDisposable`.
+    */
     override public init() {
         super.init()
     }
@@ -33,18 +41,18 @@ public final class SerialDisposable : DisposeBase, Cancelable {
     */
     public var disposable: Disposable {
         get {
-            return self._lock.calculateLocked {
-                return self._current ?? Disposables.create()
+            return _lock.calculateLocked {
+                return self.disposable
             }
         }
         set (newDisposable) {
-            let disposable: Disposable? = self._lock.calculateLocked {
-                if self._isDisposed {
+            let disposable: Disposable? = _lock.calculateLocked {
+                if _isDisposed {
                     return newDisposable
                 }
                 else {
-                    let toDispose = self._current
-                    self._current = newDisposable
+                    let toDispose = _current
+                    _current = newDisposable
                     return toDispose
                 }
             }
@@ -55,20 +63,22 @@ public final class SerialDisposable : DisposeBase, Cancelable {
         }
     }
     
-    /// Disposes the underlying disposable as well as all future replacements.
+    /**
+    Disposes the underlying disposable as well as all future replacements.
+    */
     public func dispose() {
-        self._dispose()?.dispose()
+        _dispose()?.dispose()
     }
 
     private func _dispose() -> Disposable? {
-        self._lock.lock(); defer { self._lock.unlock() }
-        if self._isDisposed {
+        _lock.lock(); defer { _lock.unlock() }
+        if _isDisposed {
             return nil
         }
         else {
-            self._isDisposed = true
-            let current = self._current
-            self._current = nil
+            _isDisposed = true
+            let current = _current
+            _current = nil
             return current
         }
     }

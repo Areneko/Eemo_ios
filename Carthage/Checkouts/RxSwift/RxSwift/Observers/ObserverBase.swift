@@ -1,32 +1,39 @@
 //
 //  ObserverBase.swift
-//  RxSwift
+//  Rx
 //
 //  Created by Krunoslav Zaher on 2/15/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-class ObserverBase<Element> : Disposable, ObserverType {
-    private let _isStopped = AtomicInt(0)
+import Foundation
 
-    func on(_ event: Event<Element>) {
+class ObserverBase<ElementType> : Disposable, ObserverType {
+    typealias E = ElementType
+
+    private var _isStopped: AtomicInt = 0
+
+    func on(_ event: Event<E>) {
         switch event {
         case .next:
-            if load(self._isStopped) == 0 {
-                self.onCore(event)
+            if _isStopped == 0 {
+                onCore(event)
             }
         case .error, .completed:
-            if fetchOr(self._isStopped, 1) == 0 {
-                self.onCore(event)
+
+            if !AtomicCompareAndSwap(0, 1, &_isStopped) {
+                return
             }
+
+            onCore(event)
         }
     }
 
-    func onCore(_ event: Event<Element>) {
-        rxAbstractMethod()
+    func onCore(_ event: Event<E>) {
+        abstractMethod()
     }
 
     func dispose() {
-        fetchOr(self._isStopped, 1)
+        _isStopped = 1
     }
 }

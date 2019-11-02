@@ -1,1 +1,1 @@
-../../RxSwift/Observables/Skip.swift
+../../RxSwift/Observables/Implementations/Skip.swift

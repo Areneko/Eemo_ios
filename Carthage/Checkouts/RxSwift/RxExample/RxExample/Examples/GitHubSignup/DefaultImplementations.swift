@@ -6,14 +6,11 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 
-import struct Foundation.CharacterSet
-import struct Foundation.URL
-import struct Foundation.URLRequest
-import struct Foundation.NSRange
-import class Foundation.URLSession
-import func Foundation.arc4random
 
 class GitHubDefaultValidationService: GitHubValidationService {
     let API: GitHubAPI
@@ -29,13 +26,14 @@ class GitHubDefaultValidationService: GitHubValidationService {
     let minPasswordCount = 5
     
     func validateUsername(_ username: String) -> Observable<ValidationResult> {
-        if username.isEmpty {
-            return .just(.empty)
+        if username.characters.count == 0 {
+            return Observable.just(.empty)
         }
+        
 
         // this obviously won't be
         if username.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) != nil {
-            return .just(.failed(message: "Username can only contain numbers or digits"))
+            return Observable.just(.failed(message: "Username can only contain numbers or digits"))
         }
         
         let loadingValue = ValidationResult.validating
@@ -54,7 +52,7 @@ class GitHubDefaultValidationService: GitHubValidationService {
     }
     
     func validatePassword(_ password: String) -> ValidationResult {
-        let numberOfCharacters = password.count
+        let numberOfCharacters = password.characters.count
         if numberOfCharacters == 0 {
             return .empty
         }
@@ -67,7 +65,7 @@ class GitHubDefaultValidationService: GitHubValidationService {
     }
     
     func validateRepeatedPassword(_ password: String, repeatedPassword: String) -> ValidationResult {
-        if repeatedPassword.count == 0 {
+        if repeatedPassword.characters.count == 0 {
             return .empty
         }
         
@@ -97,9 +95,9 @@ class GitHubDefaultAPI : GitHubAPI {
         
         let url = URL(string: "https://github.com/\(username.URLEscaped)")!
         let request = URLRequest(url: url)
-        return self.URLSession.rx.response(request: request)
-            .map { pair in
-                return pair.response.statusCode == 404
+        return self.URLSession.rx.response(request)
+            .map { (maybeData, response) in
+                return response.statusCode == 404
             }
             .catchErrorJustReturn(false)
     }
@@ -107,8 +105,9 @@ class GitHubDefaultAPI : GitHubAPI {
     func signup(_ username: String, password: String) -> Observable<Bool> {
         // this is also just a mock
         let signupResult = arc4random() % 5 == 0 ? false : true
-        
         return Observable.just(signupResult)
-            .delay(.seconds(1), scheduler: MainScheduler.instance)
+            .concat(Observable.never())
+            .throttle(0.4, scheduler: MainScheduler.instance)
+            .take(1)
     }
 }

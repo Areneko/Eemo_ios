@@ -6,13 +6,13 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import RxSwift
 import Foundation
+import RxSwift
 
 /**
 Scheduler that tests virtual scheduler
 */
-final class TestVirtualScheduler : VirtualTimeScheduler<TestVirtualSchedulerVirtualTimeConverter> {
+class TestVirtualScheduler : VirtualTimeScheduler<TestVirtualSchedulerVirtualTimeConverter> {
     init(initialClock: Int = 0) {
         super.init(initialClock: initialClock, converter: TestVirtualSchedulerVirtualTimeConverter())
     }
@@ -26,18 +26,18 @@ struct TestVirtualSchedulerVirtualTimeConverter : VirtualTimeConverterType {
     typealias VirtualTimeIntervalUnit = Int
 
     func convertFromVirtualTime(_ virtualTime: VirtualTimeUnit) -> RxTime {
-        return Date(timeIntervalSince1970: Foundation.TimeInterval(virtualTime) * 10.0)
+        return Date(timeIntervalSince1970: RxTimeInterval(virtualTime) * 10.0)
     }
 
     func convertToVirtualTime(_ time: RxTime) -> VirtualTimeUnit {
         return Int(time.timeIntervalSince1970 / 10.0)
     }
 
-    func convertFromVirtualTimeInterval(_ virtualTimeInterval: VirtualTimeIntervalUnit) -> Foundation.TimeInterval {
-        return Foundation.TimeInterval(virtualTimeInterval * 10)
+    func convertFromVirtualTimeInterval(_ virtualTimeInterval: VirtualTimeIntervalUnit) -> RxTimeInterval {
+        return RxTimeInterval(virtualTimeInterval * 10)
     }
 
-    func convertToVirtualTimeInterval(_ timeInterval: Foundation.TimeInterval) -> VirtualTimeIntervalUnit {
+    func convertToVirtualTimeInterval(_ timeInterval: RxTimeInterval) -> VirtualTimeIntervalUnit {
         return Int(timeInterval / 10.0)
     }
 

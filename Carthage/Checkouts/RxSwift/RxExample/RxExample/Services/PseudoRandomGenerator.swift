@@ -6,6 +6,7 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
 
 
 // https://en.wikipedia.org/wiki/Random_number_generation

@@ -10,18 +10,18 @@
 import Foundation
 
 /**
- Validates that all headers are in this standard form.
+Validates that all headers are in this standard form
+ 
+//
+//  {file}.swift
+//  Project
+//
+//  Created by {Author} on 2/14/15.
+//  Copyright (c) 2015 Krunoslav Zaher. All rights reserved.
+//
 
- //
- //  {file}.swift
- //  Project
- //
- //  Created by {Author} on 2/14/15.
- //  Copyright (c) 2015 Krunoslav Zaher. All rights reserved.
- //
-
- Only Project is not checked yet, but it will be soon.
- */
+Only Project is not checked yet, but it will be soon.
+*/
 
 let fileManager = FileManager.default
 
@@ -32,47 +32,34 @@ let allowedExtensions = [
 ]
 
 let excludedRootPaths = [
-    "Carthage",
     ".git",
     "build",
     "Rx.playground",
-    "vendor",
-    "Sources",
-    "Carthage"
+    "vendor"
 ]
 
 let excludePaths = [
-    "AllTestz/main.swift",
-    "Platform/AtomicInt.swift",
-    "Platform/Platform.Linux.swift",
-    "Platform/Platform.Darwin.swift",
-    "Platform/RecursiveLock.swift",
-    "Platform/DataStructures/Bag.swift",
-    "Platform/DataStructures/InfiniteSequence.swift",
-    "Platform/DataStructures/PriorityQueue.swift",
-    "Platform/DataStructures/Queue.swift",
-    "Platform/DispatchQueue+Extensions.swift",
-    "Platform/DeprecationWarner.swift",
+    "AllTests/main.swift",
     "RxExample/Services/Reachability.swift",
-    "RxDataSources"
+    "RxCocoaTests/RxTests-"
 ]
 
 func isExtensionIncluded(path: String) -> Bool {
     return (allowedExtensions.map { path.hasSuffix($0) }).reduce(false) { $0 || $1 }
 }
 
-let whitespace = NSCharacterSet.whitespacesAndNewlines
+let whitespace = NSCharacterSet.whitespacesAndNewlines()
 
 let identifier = "(?:\\w|\\+|\\_|\\.|-)+"
 
-let fileLine = try NSRegularExpression(pattern: "//  (\(identifier))", options: [])
-let projectLine = try NSRegularExpression(pattern: "//  (\(identifier))", options: [])
+let fileLine = try RegularExpression(pattern: "//  (\(identifier))", options: [])
+let projectLine = try RegularExpression(pattern: "//  (\(identifier))", options: [])
 
-let createdBy = try NSRegularExpression(pattern: "//  Created by .* on \\d+/\\d+/\\d+\\.", options: [])
-let copyrightLine = try NSRegularExpression(pattern: "//  Copyright © (\\d+) Krunoslav Zaher. All rights reserved.", options: [])
+let createdBy = try RegularExpression(pattern: "//  Created by .* on \\d+/\\d+/\\d+\\.", options: [])
+let copyrightLine = try RegularExpression(pattern: "//  Copyright © (\\d+) Krunoslav Zaher. All rights reserved.", options: [])
 
-func validateRegexMatches(regularExpression: NSRegularExpression, content: String) -> ([String], Bool) {
-    let range = NSRange(location: 0, length: content.count)
+func validateRegexMatches(regularExpression: RegularExpression, content: String) -> ([String], Bool) {
+    let range = NSRange(location: 0, length: content.characters.count)
     let matches = regularExpression.matches(in: content, options: [], range: range)
 
     if matches.count == 0 {
@@ -89,8 +76,7 @@ func validateRegexMatches(regularExpression: NSRegularExpression, content: Strin
 
     return (matches[0 ..< matches.count].flatMap { m -> [String] in
         return (1 ..< m.numberOfRanges).map { index in
-            let range = m.range(at: index)
-            return (content as NSString).substring(with: range)
+            return (content as NSString).substring(with: m.range(at: index))
         }
     }, true)
 }
@@ -136,11 +122,10 @@ func validateHeader(path: String) throws -> Bool {
         return false
     }
 
-    let (parsedProject, isValidProject) = validateRegexMatches(regularExpression: projectLine, content: lines[2])
+    let (_, isValidProject) = validateRegexMatches(regularExpression: projectLine, content: lines[2])
 
-    let targetProject = path.components(separatedBy: "/")[0]
-    if !isValidProject || parsedProject.first != targetProject {
-        print("ERROR: Line[3] Line not equal to `// \(targetProject)`")
+    if !isValidProject {
+        print("ERROR: Line[3] Line not maching \(projectLine.pattern)")
         return false
     }
 
@@ -163,9 +148,8 @@ func validateHeader(path: String) throws -> Bool {
         return false
     }
 
-    let currentYear = Calendar.current.component(.year, from: Date())
-    if year.first == nil || !(2015...currentYear).contains(Int(year.first!) ?? 0) {
-        print("ERROR: Line[6] Wrong copyright year \(year.first ?? "?") instead of 2015...\(currentYear)")
+    if year.first == nil || !(2015...2016).contains(Int(year.first!) ?? 0) {
+        print("ERROR: Line[6] Wrong copyright year \(year.first ?? "?") instead of 2015...2016")
         return false
     }
 

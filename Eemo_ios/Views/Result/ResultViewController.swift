@@ -14,11 +14,7 @@ class ResultViewController: UIViewController {
     var originalImage: UIImage?
     var emoText: String?
     
-    @IBOutlet private weak var twitterShareButton: UIButton!
-    @IBOutlet private weak var facebookShareButton: UIButton!
-    @IBOutlet private weak var instagramShareButton: UIButton!
-    
-    @IBOutlet private weak var savePhotoButton: UIButton!
+    @IBOutlet private weak var shareButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,10 +22,33 @@ class ResultViewController: UIViewController {
         configure()
     }
     
+    @IBAction private func shere() {
+        let text: String = "「\(emoText!)」"
+        let shareItems: [Any] = [text, getScreenShot()]
+        let activityViewController = UIActivityViewController(
+            activityItems: shareItems, applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction private func dismiss() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func getScreenShot() -> UIImage {
+        self.shareButton.isHidden = true
+        UIGraphicsBeginImageContextWithOptions(emoImageView.bounds.size, false, 0.0)
+        self.view.drawHierarchy(in: self.emoImageView.bounds, afterScreenUpdates: true)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        self.shareButton.isHidden = false
+        return image
+    }
+    
     private func configure() {
         emoImageView.image = originalImage
-        emoImageView.clipsToBounds = true
-        emoImageView.layer.cornerRadius = 5
-        emoImageView.emo(emoText: emoText!)
+        emoImageView.emo(emoText: emoText!, frame: CGRect(x: 30, y: 30, width: view.frame.width - 60, height: view.frame.height - 60))
+        
+        shareButton.clipsToBounds = true
+        shareButton.layer.cornerRadius = shareButton.frame.height / 2
     }
 }
